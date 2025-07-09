@@ -1,0 +1,268 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Project Repository and CI/CD Pipeline",
+        "description": "Initialize project repositories for frontend (React/Next.js, React Native) and backend (Python/FastAPI), configure CI/CD pipelines for Vercel (frontend) and Railway/Render (backend), and set up linting, testing, and deployment automation.",
+        "details": "Create GitHub repositories for frontend (React/Next.js v14, React Native v0.73) and backend (Python 3.11, FastAPI 0.109). Configure Vercel for Next.js deployment, Railway/Render for FastAPI. Use GitHub Actions for CI/CD. Set up ESLint, Prettier, and pytest for code quality.",
+        "testStrategy": "Verify repository setup, CI/CD pipeline execution, and successful deployment to staging environments.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "in-progress",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Initialize GitHub Repositories for Frontend and Backend",
+            "description": "Create separate GitHub repositories for the frontend (React/Next.js v14, React Native v0.73) and backend (Python 3.11, FastAPI 0.109) projects.",
+            "dependencies": [],
+            "details": "Set up two repositories on GitHub: one for the frontend codebase and one for the backend. Ensure each repository is initialized with a README and appropriate .gitignore files for their respective technologies.",
+            "status": "done",
+            "testStrategy": "Verify that both repositories are accessible, can be cloned, and accept pushes from authorized users."
+          },
+          {
+            "id": 2,
+            "title": "Configure Linting and Testing Tools",
+            "description": "Set up ESLint and Prettier for the frontend repositories, and pytest for the backend repository to ensure code quality and consistency.",
+            "dependencies": [
+              1
+            ],
+            "details": "Install and configure ESLint and Prettier in the React/Next.js and React Native repositories. Set up pytest in the FastAPI backend repository. Add configuration files and example test cases.",
+            "status": "pending",
+            "testStrategy": "Run linting and test commands locally to confirm that code is checked for style and correctness, and that sample tests pass."
+          },
+          {
+            "id": 3,
+            "title": "Set Up CI/CD Pipelines with GitHub Actions",
+            "description": "Implement GitHub Actions workflows for automated linting, testing, and deployment triggers for both frontend and backend repositories.",
+            "dependencies": [
+              2
+            ],
+            "details": "Create workflow YAML files in each repository to automate linting, testing, and deployment steps. Ensure workflows run on push and pull request events.",
+            "status": "pending",
+            "testStrategy": "Push code changes and verify that GitHub Actions workflows execute successfully, reporting lint/test results and triggering deployments."
+          },
+          {
+            "id": 4,
+            "title": "Configure Frontend Deployment to Vercel",
+            "description": "Connect the frontend repository to Vercel, configure build settings, and automate deployments on code changes.",
+            "dependencies": [
+              3
+            ],
+            "details": "Link the Next.js repository to Vercel, select the correct framework preset, and ensure the build command is set (default or overridden as needed). Set up automatic deployments from the main branch and configure vercel.json if custom settings are required.[1][2][4]",
+            "status": "pending",
+            "testStrategy": "Commit changes to the frontend repository and confirm that Vercel builds and deploys the application, making it accessible via the provided URL."
+          },
+          {
+            "id": 5,
+            "title": "Configure Backend Deployment to Railway or Render",
+            "description": "Connect the backend repository to Railway or Render, set up environment variables, and automate deployments on code changes.",
+            "dependencies": [
+              3
+            ],
+            "details": "Link the FastAPI repository to Railway or Render, configure build and start commands, and set up environment variables as needed. Enable automatic deployments from the main branch.",
+            "status": "pending",
+            "testStrategy": "Push updates to the backend repository and verify that Railway or Render builds and deploys the FastAPI application, confirming the API is reachable."
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Design and Implement Core Database Schema",
+        "description": "Design and implement the PostgreSQL database schema for user management, questions, simulations, and performance tracking.",
+        "details": "Use Supabase for PostgreSQL. Define tables: users, questions, simulations, user_simulation_results, user_question_history, flashcards, summaries, gamification_stats. Use Supabase Auth for user management. Schema should support relationships and indexing for performance.",
+        "testStrategy": "Test schema creation, CRUD operations, and data integrity with sample data.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 3,
+        "title": "Implement User Authentication and Authorization",
+        "description": "Develop secure user authentication and role-based access control for web and mobile.",
+        "details": "Integrate Supabase Auth for JWT-based authentication. Implement role-based access (student, admin). Use Next.js Auth for web, React Native Auth for mobile. Store tokens securely.",
+        "testStrategy": "Test login, registration, token validation, and role-based access.",
+        "priority": "high",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 4,
+        "title": "Build Responsive UI Framework",
+        "description": "Develop a responsive, modern UI framework for web and mobile using React, Next.js, React Native, and TailwindCSS.",
+        "details": "Use React 18, Next.js 14, React Native 0.73, TailwindCSS 3.4. Implement dark/light mode, responsive layouts, and navigation based on user journeys. Use Zustand or Redux for state management, Framer Motion for animations.",
+        "testStrategy": "Test UI responsiveness, theme switching, and navigation on multiple devices.",
+        "priority": "high",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 5,
+        "title": "Integrate Question Bank from Hugging Face",
+        "description": "Fetch and integrate the FGV question dataset from Hugging Face into the application.",
+        "details": "Use datasets.load_dataset('fgv_oab') from Hugging Face. Store questions in PostgreSQL. Implement API endpoints for fetching, filtering (discipline, theme, year, difficulty, cited articles).",
+        "testStrategy": "Test data import, filtering, and API response accuracy.",
+        "priority": "medium",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 6,
+        "title": "Develop Question Answering and Feedback System",
+        "description": "Implement the question answering interface with immediate feedback and performance tracking.",
+        "details": "Build UI for answering questions. Store user answers and provide immediate feedback with explanations for all options. Track user performance per question. Use Zustand/Redux for state.",
+        "testStrategy": "Test question display, answer submission, feedback, and performance tracking.",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 7,
+        "title": "Implement Simulation Modes (Prova Real and Custom)",
+        "description": "Develop simulation modes for both timed exams and custom simulations.",
+        "details": "Build UI for simulation selection (timed, custom by theme, number, difficulty). Store simulation results. Use Zustand/Redux for state. Implement timer and submission logic.",
+        "testStrategy": "Test simulation creation, timer, submission, and result storage.",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          5
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 8,
+        "title": "Develop Automated Essay and Processual Document Correction",
+        "description": "Implement AI-powered correction for essays and processual documents with rubrics and feedback.",
+        "details": "Integrate OpenAI GPT-4o or local LLM via Ollama. Define rubrics (structure, language, argumentation). Build API for document submission and feedback. Compare with FGV standards.",
+        "testStrategy": "Test document submission, AI feedback, and rubric application.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 9,
+        "title": "Build Adaptive Study Plan Engine",
+        "description": "Develop an AI-driven adaptive study plan based on user performance and FGV statistics.",
+        "details": "Analyze user errors/performance. Use AI to adjust study schedule, focusing on weak areas. Integrate FGV historical data for prioritization. Display plan in UI.",
+        "testStrategy": "Test plan generation, adjustment logic, and UI display.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          6
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 10,
+        "title": "Implement Interactive Vade Mecum",
+        "description": "Develop an interactive legal reference tool with AI-powered suggestions and contextual search.",
+        "details": "Build UI for legal reference. Use AI to suggest articles, summaries, and jurisprudence. Implement contextual search. Store user queries and suggestions.",
+        "testStrategy": "Test search, suggestion accuracy, and UI responsiveness.",
+        "priority": "medium",
+        "dependencies": [
+          4,
+          8
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 11,
+        "title": "Develop Complementary Resources (Flashcards, Summaries, Videos)",
+        "description": "Implement automatic generation of flashcards, summaries, mind maps, and short videos based on user errors.",
+        "details": "Use AI to generate flashcards, summaries, and mind maps from user errors. Integrate video generation (e.g., Loom API). Display resources in UI.",
+        "testStrategy": "Test resource generation, display, and relevance to user errors.",
+        "priority": "low",
+        "dependencies": [
+          6,
+          8
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 12,
+        "title": "Implement Gamification System",
+        "description": "Develop a gamification system with points, streaks, badges, rankings, and daily challenges.",
+        "details": "Build UI for gamification. Track points, streaks, badges, and rankings. Use AI to suggest daily challenges. Display progress and rewards.",
+        "testStrategy": "Test point tracking, badge assignment, challenge suggestions, and UI updates.",
+        "priority": "low",
+        "dependencies": [
+          2,
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 13,
+        "title": "Build Community Features with AI Moderation",
+        "description": "Develop a community forum with AI-powered moderation for questions, comments, and study groups.",
+        "details": "Build forum UI. Implement AI moderation for initial content quality. Allow user interactions, groups, and comments. Store forum data in PostgreSQL.",
+        "testStrategy": "Test forum functionality, AI moderation, and user interactions.",
+        "priority": "low",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 14,
+        "title": "Implement Monetization and Subscription Logic",
+        "description": "Develop freemium and premium subscription logic with access control and feature gating.",
+        "details": "Integrate payment gateway (e.g., Stripe). Implement subscription tiers (freemium, premium). Gate features based on subscription. Store subscription status in PostgreSQL.",
+        "testStrategy": "Test subscription flow, feature access, and payment processing.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 15,
+        "title": "Develop Analytics Dashboard and Success Metrics",
+        "description": "Build an analytics dashboard to track user engagement, study time, simulation completion, and NPS.",
+        "details": "Use ECharts/Recharts for interactive dashboards. Track DAU/MAU, study time, simulation completion, NPS, retention. Display metrics in UI.",
+        "testStrategy": "Test data collection, dashboard display, and metric accuracy.",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          4
+        ],
+        "status": "pending",
+        "subtasks": []
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-09T23:46:03.268Z",
+      "updated": "2025-07-09T23:51:42.992Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

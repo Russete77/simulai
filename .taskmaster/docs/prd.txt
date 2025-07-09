@@ -1,0 +1,135 @@
+📄 Product Requirements Document (PRD)
+Produto: Simulai OAB
+Responsável: Russo e Haru
+Data: 03/2025
+Versão: 1.0
+
+1. 🎯 Visão Geral
+Construir uma plataforma SaaS moderna e responsiva (web + mobile) para preparação de alunos da 1ª e 2ª fase da OAB, usando IA para oferecer uma experiência hiperpersonalizada, com foco em performance, eficiência e engajamento.
+
+2. 🧑‍🎓 Público-Alvo
+Estudantes de Direito em fase final da graduação.
+
+Bacharéis que já concluíram o curso e buscam aprovação na OAB.
+
+Profissionais buscando uma 2ª chance ou melhor desempenho na 2ª fase.
+
+3. 🧩 Funcionalidades Principais
+3.1. Banco de Questões Inteligente (1ª Fase)
++5.000 questões da FGV (dataset no Hugging Face).
+
+Filtros: disciplina, tema, ano, banca, dificuldade, artigos citados.
+
+Feedback imediato com explicações de todas as alternativas.
+
+Histórico de desempenho por questão.
+
+3.2. Simulados
+Modo Prova Real (tempo, sem correção instantânea).
+
+Modo Personalizado (por tema, número de questões, dificuldade).
+
+Simulados da 2ª fase com questões discursivas e peças processuais.
+
+3.3. Correção Automatizada por IA (2ª Fase)
+Correção de peças com rubricas: estrutura, linguagem, fundamentação.
+
+Feedback instantâneo com sugestões de melhoria.
+
+Comparação com padrões da FGV.
+
+3.4. Plano de Estudos Adaptativo
+IA ajusta o cronograma com base nos erros/acertos.
+
+Maior foco em disciplinas com menor desempenho.
+
+Integra dados históricos da FGV para priorização.
+
+3.5. Vade Mecum Interativo
+IA sugere artigos, súmulas e jurisprudência conforme a questão ou tema.
+
+Sistema de busca contextual.
+
+3.6. Recursos Complementares
+Flashcards gerados automaticamente.
+
+Resumos, mapas mentais e vídeos curtos baseados nos erros do aluno.
+
+Sugestões de leitura com base no desempenho.
+
+3.7. Gamificação
+Sistema de pontos, streaks, badges e rankings.
+
+Metas e desafios diários sugeridos por IA.
+
+Recompensas visuais e estatísticas de progresso.
+
+3.8. Comunidade com IA
+Fórum para dúvidas, comentários e grupos de estudo.
+
+Moderação inicial por IA para manter qualidade.
+
+4. 🖥️ Requisitos de Interface (UI/UX)
+Totalmente responsivo (Web, iOS, Android).
+
+Layout claro, moderno, com foco em legibilidade e interação rápida.
+
+Modo escuro e claro.
+
+Dashboard com gráficos interativos (ECharts / Recharts).
+
+Navegação baseada em jornadas (ex: "estudar questões", "ver plano", "corrigir peça").
+
+5. ⚙️ Requisitos Técnicos
+5.1. Frontend
+Framework: React + Next.js (Web), React Native (Mobile)
+
+Estilo: TailwindCSS
+
+Estado: Zustand ou Redux
+
+Animações: Framer Motion
+
+5.2. Backend
+Linguagem: Python (FastAPI)
+
+Banco: PostgreSQL (via Supabase)
+
+Integração com IA: OpenAI (GPT-4o ou local LLM via Ollama)
+
+Infra: Vercel (Frontend) + Railway/Render (Backend)
+
+5.3. IA e Dados
+Dataset formatado e hospedado no Hugging Face (datasets.load_dataset)
+
+Correção discursiva com LLM + Prompt Engineering + Rubricas.
+
+Geração de simulados e flashcards com base em embeddings.
+
+IA orientada por estatísticas da FGV.
+
+6. 💰 Monetização
+Plano Freemium: acesso limitado a questões e simulados.
+
+Premium R$ 50–200/mês:
+
+Correção ilimitada de discursivas
+
+Plano de estudos dinâmico
+
+Simulados ilimitados
+
+Comunidade com recursos avançados
+
+Estatísticas completas
+
+7. 📊 Métricas de Sucesso
+Taxa de aprovação estimada dos usuários.
+
+% de usuários ativos diariamente (DAU/MAU).
+
+Tempo médio de estudo diário.
+
+Taxa de simulado completo vs. iniciado.
+
+NPS e taxa de retenção (30, 60, 90 dias).
