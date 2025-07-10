@@ -196,6 +196,38 @@ export interface ApiError {
   message: string;
   code?: string;
   details?: Record<string, unknown>;
+  status?: number;
+  timestamp?: string;
+}
+
+// Tipos específicos para erros HTTP
+export interface HttpError extends ApiError {
+  status: number;
+  statusText: string;
+  url?: string;
+  method?: string;
+}
+
+// Estender tipo do AxiosRequestConfig para incluir _retry
+export interface ExtendedAxiosRequestConfig {
+  _retry?: boolean;
+  headers?: Record<string, string>;
+  [key: string]: unknown;
+}
+
+// Tipos para interceptors
+export interface RequestQueueItem {
+  resolve: (value: unknown) => void;
+  reject: (error: Error | HttpError) => void;
+  config: ExtendedAxiosRequestConfig;
+}
+
+// Tipos para configuração da API
+export interface ApiConfig {
+  baseURL: string;
+  timeout: number;
+  retries: number;
+  retryDelay: number;
 }
 
 // Tipos para paginação
