@@ -416,8 +416,8 @@
             "title": "Análise e mapeamento de endpoints e dados mockados",
             "description": "Identificar todos os pontos onde dados mockados estão sendo utilizados no frontend e mapear os endpoints disponíveis no backend FastAPI, criando uma documentação clara da estrutura de dados esperada para cada endpoint.",
             "dependencies": [],
-            "details": "1. Criar uma planilha ou documento listando todos os componentes React que usam dados mockados\n2. Para cada componente, documentar:\n   - Tipo de dados mockados utilizados\n   - Estrutura dos dados (campos, tipos)\n   - Operações realizadas (leitura, criação, atualização, exclusão)\n3. Analisar a documentação do FastAPI (Swagger/OpenAPI) para identificar endpoints disponíveis\n4. Mapear cada componente com dados mockados para o endpoint correspondente\n5. Documentar discrepâncias entre estrutura de dados mockados e respostas da API\n6. Identificar endpoints faltantes que precisarão ser desenvolvidos no backend",
-            "status": "pending",
+            "details": "1. Criar uma planilha ou documento listando todos os componentes React que usam dados mockados\n2. Para cada componente, documentar:\n   - Tipo de dados mockados utilizados\n   - Estrutura dos dados (campos, tipos)\n   - Operações realizadas (leitura, criação, atualização, exclusão)\n3. Analisar a documentação do FastAPI (Swagger/OpenAPI) para identificar endpoints disponíveis\n4. Mapear cada componente com dados mockados para o endpoint correspondente\n5. Documentar discrepâncias entre estrutura de dados mockados e respostas da API\n6. Identificar endpoints faltantes que precisarão ser desenvolvidos no backend\n<info added on 2025-07-10T20:05:43.215Z>\n## Mapeamento de Dados Mockados vs Endpoints\n\n### Componentes Analisados:\n1. **Simulados.tsx** - 2 arrays de dados mockados (disponíveis + realizados)\n2. **QuestionsBank.tsx** - Conectado ao Supabase, apenas disciplinas mockadas\n3. **Resources.tsx** - 4 arrays mockados (resumos, vídeos, áudios, jurisprudências)\n4. **App.tsx** - Estatísticas básicas mockadas\n\n### Backend FastAPI Status:\n- Apenas 4 endpoints placeholder implementados\n- Todos retornam \"Coming soon!\"\n- Estrutura básica pronta para expansão\n\n### Documento Criado:\n- **Localização**: `docs/frontend-backend-mapping.md`\n- **Conteúdo**: Mapeamento completo com estruturas de dados, endpoints necessários e priorização\n- **Status**: Documentação técnica detalhada ✅\n\n### Próximos Passos Identificados:\n1. Implementar autenticação no backend\n2. Criar endpoints de questões\n3. Substituir dados mockados por chamadas de API\n4. Implementar sistema de simulados\n\n### Inconsistências Críticas:\n- Nomenclatura: DB usa inglês, frontend mistura português/inglês\n- Autenticação: Frontend usa Supabase direto, backend não integrado\n- Estruturas: Precisam ser padronizadas entre frontend/backend\n</info added on 2025-07-10T20:05:43.215Z>",
+            "status": "done",
             "testStrategy": "Validar a documentação criada com a equipe de backend para garantir que todos os endpoints necessários estão disponíveis e funcionando conforme esperado."
           },
           {
@@ -435,7 +435,7 @@
             "description": "Criar módulos de serviço para cada domínio funcional da aplicação (autenticação, questões, simulados, etc.), implementando funções tipadas para cada operação CRUD necessária.",
             "dependencies": [],
             "details": "1. Criar estrutura de pastas para serviços por domínio em `src/services/`\n2. Para cada domínio identificado na análise, criar um arquivo de serviço (ex: `authService.ts`, `questionsService.ts`, `examsService.ts`)\n3. Em cada serviço, implementar:\n   - Interfaces TypeScript para payloads de requisição\n   - Interfaces para respostas da API\n   - Funções para cada operação CRUD necessária\n4. Utilizar o cliente Axios configurado anteriormente\n5. Implementar tratamento de erros específicos de cada domínio\n6. Adicionar comentários JSDoc para documentar parâmetros e retornos\n7. Criar barrel files (index.ts) para exportar todos os serviços de forma organizada",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Implementar testes de integração para cada serviço, utilizando MSW (Mock Service Worker) para simular as respostas da API."
           },
           {
@@ -444,7 +444,7 @@
             "description": "Configurar o React Query para gerenciar o estado do servidor, implementando hooks personalizados para cada operação de API, com suporte a cache, invalidação e refetch.",
             "dependencies": [],
             "details": "1. Instalar React Query: `npm install @tanstack/react-query`\n2. Configurar o QueryClient com opções padrão para retry, staleTime e cacheTime\n3. Adicionar QueryClientProvider no componente raiz da aplicação\n4. Criar pasta `src/hooks` para hooks personalizados de query\n5. Para cada serviço de API, criar hooks correspondentes:\n   - useQuery para operações de leitura\n   - useMutation para operações de escrita (create, update, delete)\n6. Implementar lógica de invalidação de cache após mutações\n7. Configurar React Query DevTools para ambiente de desenvolvimento\n8. Implementar estratégias de prefetching para dados frequentemente acessados",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Criar testes para verificar o comportamento de cache e invalidação dos hooks de query, garantindo que os dados são atualizados corretamente após mutações."
           },
           {
@@ -479,7 +479,7 @@
     ],
     "metadata": {
       "created": "2025-07-09T23:46:03.268Z",
-      "updated": "2025-07-10T19:14:29.516Z",
+      "updated": "2025-07-10T20:05:48.100Z",
       "description": "Tasks for master context"
     }
   }
