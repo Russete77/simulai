@@ -9,7 +9,7 @@
         "testStrategy": "Verify repository setup, CI/CD pipeline execution, and successful deployment to staging environments.",
         "priority": "high",
         "dependencies": [],
-        "status": "in-progress",
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -61,7 +61,7 @@
               3
             ],
             "details": "Link the FastAPI repository to Railway or Render, configure build and start commands, and set up environment variables as needed. Enable automatic deployments from the main branch.",
-            "status": "pending",
+            "status": "done",
             "testStrategy": "Push updates to the backend repository and verify that Railway or Render builds and deploys the FastAPI application, confirming the API is reachable."
           }
         ]
@@ -261,7 +261,7 @@
     ],
     "metadata": {
       "created": "2025-07-09T23:46:03.268Z",
-      "updated": "2025-07-10T04:01:02.971Z",
+      "updated": "2025-07-10T04:03:59.584Z",
       "description": "Tasks for master context"
     }
   }

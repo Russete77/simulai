@@ -72,11 +72,50 @@ jobs:
         flags: backend
         name: backend-coverage
 
-  deploy:
+  deploy-railway:
     needs: test
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     
     steps:
-    - name: Deploy to Railway/Render
-      run: echo "🚀 Deploy to Railway/Render will be configured after repository setup"
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Install Railway CLI
+      run: |
+        curl -fsSL https://railway.app/install.sh | sh
+        echo "$HOME/.railway/bin" >> $GITHUB_PATH
+        
+    - name: Deploy to Railway
+      run: |
+        railway login --token ${{ secrets.RAILWAY_TOKEN }}
+        railway up --service ${{ secrets.RAILWAY_SERVICE_ID }}
+      env:
+        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+        
+  deploy-render:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.repository_owner == 'Russete77'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to Render
+      uses: johnbeynon/render-deploy-action@v0.0.8
+      with:
+        service-id: ${{ secrets.RENDER_SERVICE_ID }}
+        api-key: ${{ secrets.RENDER_API_KEY }}
+        
+  notify-deployment:
+    needs: [deploy-railway, deploy-render]
+    runs-on: ubuntu-latest
+    if: always() && github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Deployment Status
+      run: |
+        echo "🚀 Backend deployment completed!"
+        echo "Railway: ${{ needs.deploy-railway.result }}"
+        echo "Render: ${{ needs.deploy-render.result }}"

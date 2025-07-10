@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: simulai-backend
+    env: python
+    region: oregon
+    plan: starter
+    buildCommand: |
+      cd backend
+      pip install -r requirements.txt
+    startCommand: |
+      cd backend
+      uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: "False"
+      - key: PYTHONPATH
+        value: /opt/render/project/src/backend
+      - key: DATABASE_URL
+        fromDatabase:
+          name: simulai-db
+          property: connectionString
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: ALLOWED_ORIGINS
+        value: https://your-frontend.vercel.app,http://localhost:3000
+
+databases:
+  - name: simulai-db
+    databaseName: simulai
+    user: simulai_user
+    region: oregon
+    plan: starter
