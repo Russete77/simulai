@@ -9,6 +9,9 @@ from fastapi.responses import JSONResponse
 import uvicorn
 from datetime import datetime
 
+# Importar rotas
+from routes import simulados_router
+
 # Initialize FastAPI app
 app = FastAPI(
     title="Simulai OAB API",
@@ -53,7 +56,10 @@ async def api_status():
         }
     }
 
-# Placeholder endpoints for main features
+# Incluir rotas
+app.include_router(simulados_router)
+
+# Placeholder endpoints para outras funcionalidades
 @app.get("/api/v1/questions")
 async def get_questions():
     """Get questions from the bank"""
@@ -63,11 +69,6 @@ async def get_questions():
 async def login():
     """User login"""
     return {"message": "Login endpoint - Coming soon!"}
-
-@app.post("/api/v1/simulations")
-async def create_simulation():
-    """Create a new simulation"""
-    return {"message": "Simulations endpoint - Coming soon!"}
 
 @app.post("/api/v1/essays/correct")
 async def correct_essay():

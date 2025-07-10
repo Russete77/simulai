@@ -10,7 +10,13 @@ dev-debug.log
 node_modules/
 
 # Environment variables
-#.env
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+frontend/.env
 
 # Editor directories and files
 .idea
@@ -23,8 +29,6 @@ node_modules/
 
 # OS specific
 .DS_Store
-
-.env
 
 # Task files
 # tasks.json

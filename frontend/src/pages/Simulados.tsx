@@ -1,17 +1,28 @@
 import { useState } from 'react';
-import { Clock, Users, Trophy, Play, Settings, BarChart3, CheckCircle, Calendar, Target, Award, TrendingUp, BookOpen } from 'lucide-react';
-import { useMockSimuladosData, useStartSimulation } from '../hooks/useSimuladosQuery';
+import { Clock, Users, Trophy, Play, Settings, BarChart3, CheckCircle, Calendar, Target, Award, TrendingUp, BookOpen, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useAvailableSimulados, useCompletedSimulados, useStartSimulation } from '../hooks/useSimuladosQuery';
 import { LoadingSpinner, LoadingCard } from '../components/ui/LoadingSpinner';
 import { ErrorMessage, EmptyState } from '../components/ui/ErrorMessage';
 import { useToast } from '../components/ui/Toast';
-import { SimuladoDisponivel } from '../types/api';
+import { SimuladoDisponivel, SimuladoRealizado } from '../types/api';
 
 const Simulados = () => {
   const [activeTab, setActiveTab] = useState('disponivel');
+  const [availablePage, setAvailablePage] = useState(1);
+  const [completedPage, setCompletedPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
   const toast = useToast();
   
-  // Usar dados mockados temporariamente até backend estar pronto
-  const { availableSimulados, completedSimulados } = useMockSimuladosData();
+  // Hooks para buscar dados paginados do backend
+  const availableSimulados = useAvailableSimulados({
+    page: availablePage,
+    limit: pageSize
+  });
+  
+  const completedSimulados = useCompletedSimulados({
+    page: completedPage,
+    limit: pageSize
+  });
   
   // Hook para iniciar simulado
   const startSimulationMutation = useStartSimulation();
@@ -21,15 +32,46 @@ const Simulados = () => {
     try {
       await startSimulationMutation.mutateAsync({ simulationId: simulado.id });
       toast.success('Simulado iniciado!', `Você tem ${simulado.tempo} minutos para completar.`);
-      // Aqui você redirecionaria para a página do simulado
-      // navigate(`/simulado/${simulado.id}`);
     } catch {
       toast.error('Erro ao iniciar simulado', 'Tente novamente em alguns instantes.');
     }
   };
   
-  const simuladosDisponiveis = availableSimulados.data || [];
-  const simuladosRealizados = completedSimulados.data || [];
+  // Handlers para paginação
+  const handleNextAvailablePage = () => {
+    if (availableSimulados.data?.meta.hasNextPage) {
+      setAvailablePage(prev => prev + 1);
+    }
+  };
+  
+  const handlePrevAvailablePage = () => {
+    if (availableSimulados.data?.meta.hasPrevPage) {
+      setAvailablePage(prev => prev - 1);
+    }
+  };
+  
+  const handleNextCompletedPage = () => {
+    if (completedSimulados.data?.meta.hasNextPage) {
+      setCompletedPage(prev => prev + 1);
+    }
+  };
+  
+  const handlePrevCompletedPage = () => {
+    if (completedSimulados.data?.meta.hasPrevPage) {
+      setCompletedPage(prev => prev - 1);
+    }
+  };
+  
+  const handlePageSizeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newSize = parseInt(e.target.value);
+    setPageSize(newSize);
+    setAvailablePage(1);
+    setCompletedPage(1);
+  };
+  
+  // Dados dos simulados
+  const simuladosDisponiveis = availableSimulados.data?.data || [];
+  const simuladosRealizados = completedSimulados.data?.data || [];
 
   const getDifficultyColor = (dificuldade: string) => {
     switch (dificuldade) {
@@ -81,7 +123,7 @@ const Simulados = () => {
           </div>
         </div>
 
-        {/* Enhanced Stats Cards */}
+        {/* Stats Cards */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300">
             <div className="flex items-center justify-between">
@@ -145,7 +187,7 @@ const Simulados = () => {
           </div>
         </div>
 
-        {/* Enhanced Tabs */}
+        {/* Tabs */}
         <div className="bg-white rounded-xl shadow-lg border border-gray-100 mb-8">
           <div className="border-b border-gray-200">
             <nav className="flex space-x-8 px-6">
@@ -168,16 +210,6 @@ const Simulados = () => {
                 }`}
               >
                 Simulados Realizados
-              </button>
-              <button
-                onClick={() => setActiveTab('criar')}
-                className={`py-4 px-1 border-b-2 font-semibold text-sm transition-colors ${
-                  activeTab === 'criar'
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700'
-                }`}
-              >
-                Criar Simulado
               </button>
             </nav>
           </div>
@@ -204,74 +236,111 @@ const Simulados = () => {
                     icon={<BookOpen className="w-12 h-12 text-gray-400" />}
                   />
                 ) : (
-                  simuladosDisponiveis.map((simulado) => (
-                  <div key={simulado.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:border-blue-200">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="text-xl font-bold text-gray-900">{simulado.titulo}</h3>
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getTypeColor(simulado.tipo)}`}>
-                            {simulado.tipo}
-                          </span>
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getDifficultyColor(simulado.dificuldade)}`}>
-                            {simulado.dificuldade}
-                          </span>
+                  <>
+                    {simuladosDisponiveis.map((simulado) => (
+                      <div key={simulado.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:border-blue-200">
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-3 mb-2">
+                              <h3 className="text-xl font-bold text-gray-900">{simulado.titulo}</h3>
+                              <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getTypeColor(simulado.tipo)}`}>
+                                {simulado.tipo}
+                              </span>
+                              <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getDifficultyColor(simulado.dificuldade)}`}>
+                                {simulado.dificuldade}
+                              </span>
+                            </div>
+                            <p className="text-gray-600 mb-3">{simulado.descricao}</p>
+                            <div className="flex items-center space-x-6 text-sm text-gray-600">
+                              <span className="flex items-center">
+                                <Clock className="w-4 h-4 mr-1" />
+                                {formatTime(simulado.tempo)}
+                              </span>
+                              <span className="flex items-center">
+                                <Target className="w-4 h-4 mr-1" />
+                                {simulado.questoes} questões
+                              </span>
+                              <span className="flex items-center">
+                                <Users className="w-4 h-4 mr-1" />
+                                {simulado.participantes.toLocaleString()} participantes
+                              </span>
+                            </div>
+                          </div>
                         </div>
-                        <p className="text-gray-600 mb-3">{simulado.descricao}</p>
-                        <div className="flex items-center space-x-6 text-sm text-gray-600">
-                          <span className="flex items-center">
-                            <Clock className="w-4 h-4 mr-1" />
-                            {formatTime(simulado.tempo)}
-                          </span>
-                          <span className="flex items-center">
-                            <Target className="w-4 h-4 mr-1" />
-                            {simulado.questoes} questões
-                          </span>
-                          <span className="flex items-center">
-                            <Users className="w-4 h-4 mr-1" />
-                            {simulado.participantes.toLocaleString()} participantes
-                          </span>
+                        
+                        <div className="mb-4">
+                          <p className="text-sm font-medium text-gray-700 mb-2">Disciplinas:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {simulado.disciplinas.map((disc: string, index: number) => (
+                              <span key={index} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium">
+                                {disc}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                          <div className="flex items-center space-x-4">
+                            <button className="text-gray-600 hover:text-gray-800 flex items-center transition-colors">
+                              <Settings className="w-4 h-4 mr-1" />
+                              Configurar
+                            </button>
+                            <button className="text-gray-600 hover:text-gray-800 flex items-center transition-colors">
+                              <BarChart3 className="w-4 h-4 mr-1" />
+                              Estatísticas
+                            </button>
+                          </div>
+                          <button 
+                            onClick={() => handleStartSimulation(simulado)}
+                            disabled={startSimulationMutation.isPending}
+                            className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                          >
+                            {startSimulationMutation.isPending ? (
+                              <LoadingSpinner size="sm" className="mr-2" />
+                            ) : (
+                              <Play className="w-4 h-4 mr-2" />
+                            )}
+                            {startSimulationMutation.isPending ? 'Iniciando...' : 'Iniciar Simulado'}
+                          </button>
                         </div>
                       </div>
-                    </div>
+                    ))}
                     
-                    <div className="mb-4">
-                      <p className="text-sm font-medium text-gray-700 mb-2">Disciplinas:</p>
-                      <div className="flex flex-wrap gap-2">
-                        {simulado.disciplinas.map((disc, index) => (
-                          <span key={index} className="px-3 py-1 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium">
-                            {disc}
-                          </span>
-                        ))}
+                    {/* Controles de paginação para simulados disponíveis */}
+                    <div className="mt-6 flex items-center justify-between">
+                      <div className="text-sm text-gray-600">
+                        Mostrando {simuladosDisponiveis.length} de {availableSimulados.data?.meta.totalItems || 0} simulados
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <select 
+                          className="border border-gray-300 rounded-md text-sm px-2 py-1"
+                          value={pageSize}
+                          onChange={handlePageSizeChange}
+                        >
+                          <option value="5">5 por página</option>
+                          <option value="10">10 por página</option>
+                          <option value="20">20 por página</option>
+                        </select>
+                        <button 
+                          onClick={handlePrevAvailablePage}
+                          disabled={!availableSimulados.data?.meta.hasPrevPage}
+                          className="p-1 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <span className="text-sm font-medium">
+                          Página {availableSimulados.data?.meta.currentPage || 1} de {availableSimulados.data?.meta.totalPages || 1}
+                        </span>
+                        <button 
+                          onClick={handleNextAvailablePage}
+                          disabled={!availableSimulados.data?.meta.hasNextPage}
+                          className="p-1 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <ChevronRight className="w-5 h-5" />
+                        </button>
                       </div>
                     </div>
-                    
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                      <div className="flex items-center space-x-4">
-                        <button className="text-gray-600 hover:text-gray-800 flex items-center transition-colors">
-                          <Settings className="w-4 h-4 mr-1" />
-                          Configurar
-                        </button>
-                        <button className="text-gray-600 hover:text-gray-800 flex items-center transition-colors">
-                          <BarChart3 className="w-4 h-4 mr-1" />
-                          Estatísticas
-                        </button>
-                      </div>
-                      <button 
-                        onClick={() => handleStartSimulation(simulado)}
-                        disabled={startSimulationMutation.isPending}
-                        className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {startSimulationMutation.isPending ? (
-                          <LoadingSpinner size="sm" className="mr-2" />
-                        ) : (
-                          <Play className="w-4 h-4 mr-2" />
-                        )}
-                        {startSimulationMutation.isPending ? 'Iniciando...' : 'Iniciar Simulado'}
-                      </button>
-                    </div>
-                  </div>
-                  ))
+                  </>
                 )}
               </div>
             )}
@@ -297,152 +366,112 @@ const Simulados = () => {
                     icon={<Trophy className="w-12 h-12 text-gray-400" />}
                   />
                 ) : (
-                  simuladosRealizados.map((simulado) => (
-                  <div key={simulado.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
-                    <div className="flex items-start justify-between mb-6">
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-gray-900 mb-2">{simulado.titulo}</h3>
-                        <div className="flex items-center space-x-6 text-sm text-gray-600">
-                          <span className="flex items-center">
-                            <Calendar className="w-4 h-4 mr-1" />
-                            {new Date(simulado.dataRealizacao).toLocaleDateString('pt-BR')}
-                          </span>
-                          <span className="flex items-center">
-                            <Clock className="w-4 h-4 mr-1" />
-                            {formatTime(simulado.tempo)}
-                          </span>
-                          <span className="flex items-center">
-                            <CheckCircle className="w-4 h-4 mr-1" />
-                            {simulado.acertos}/{simulado.total} acertos
-                          </span>
+                  <>
+                    {simuladosRealizados.map((simulado: SimuladoRealizado) => (
+                      <div key={simulado.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
+                        <div className="flex items-start justify-between mb-6">
+                          <div className="flex-1">
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">{simulado.titulo}</h3>
+                            <div className="flex items-center space-x-6 text-sm text-gray-600">
+                              <span className="flex items-center">
+                                <Calendar className="w-4 h-4 mr-1" />
+                                {new Date(simulado.dataRealizacao).toLocaleDateString('pt-BR')}
+                              </span>
+                              <span className="flex items-center">
+                                <Clock className="w-4 h-4 mr-1" />
+                                {formatTime(simulado.tempo)}
+                              </span>
+                              <span className="flex items-center">
+                                <CheckCircle className="w-4 h-4 mr-1" />
+                                {simulado.acertos}/{simulado.total} acertos
+                              </span>
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-4xl font-bold text-gray-900 mb-1">{simulado.nota}</div>
+                            <div className="text-sm font-medium text-gray-600">Nota Final</div>
+                          </div>
+                        </div>
+                        
+                        <div className="grid md:grid-cols-3 gap-4 mb-6">
+                          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
+                            <div className="text-sm font-medium text-blue-700 mb-1">Taxa de Acerto</div>
+                            <div className="text-2xl font-bold text-blue-900">
+                              {Math.round((simulado.acertos / simulado.total) * 100)}%
+                            </div>
+                          </div>
+                          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 border border-green-200">
+                            <div className="text-sm font-medium text-green-700 mb-1">Posição no Ranking</div>
+                            <div className="text-2xl font-bold text-green-900">
+                              #{simulado.posicao}
+                            </div>
+                          </div>
+                          <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 border border-purple-200">
+                            <div className="text-sm font-medium text-purple-700 mb-1">Total de Participantes</div>
+                            <div className="text-2xl font-bold text-purple-900">
+                              {simulado.totalParticipantes.toLocaleString()}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center justify-between pt-4 border-t border-gray-200">
+                          <div className="flex-1 mr-4">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium text-gray-700">Progresso</span>
+                              <span className="text-sm font-bold text-gray-900">
+                                {Math.round((simulado.acertos / simulado.total) * 100)}%
+                              </span>
+                            </div>
+                            <div className="w-full bg-gray-200 rounded-full h-3">
+                              <div 
+                                className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-300" 
+                                style={{ width: `${(simulado.acertos / simulado.total) * 100}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                          <button className="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors font-medium">
+                            Ver Relatório Detalhado
+                          </button>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <div className="text-4xl font-bold text-gray-900 mb-1">{simulado.nota}</div>
-                        <div className="text-sm font-medium text-gray-600">Nota Final</div>
-                      </div>
-                    </div>
+                    ))}
                     
-                    <div className="grid md:grid-cols-3 gap-4 mb-6">
-                      <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
-                        <div className="text-sm font-medium text-blue-700 mb-1">Taxa de Acerto</div>
-                        <div className="text-2xl font-bold text-blue-900">
-                          {Math.round((simulado.acertos / simulado.total) * 100)}%
-                        </div>
+                    {/* Controles de paginação para simulados realizados */}
+                    <div className="mt-6 flex items-center justify-between">
+                      <div className="text-sm text-gray-600">
+                        Mostrando {simuladosRealizados.length} de {completedSimulados.data?.meta.totalItems || 0} simulados
                       </div>
-                      <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 border border-green-200">
-                        <div className="text-sm font-medium text-green-700 mb-1">Posição no Ranking</div>
-                        <div className="text-2xl font-bold text-green-900">
-                          #{simulado.posicao}
-                        </div>
-                      </div>
-                      <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 border border-purple-200">
-                        <div className="text-sm font-medium text-purple-700 mb-1">Total de Participantes</div>
-                        <div className="text-2xl font-bold text-purple-900">
-                          {simulado.totalParticipantes.toLocaleString()}
-                        </div>
+                      <div className="flex items-center space-x-2">
+                        <select 
+                          className="border border-gray-300 rounded-md text-sm px-2 py-1"
+                          value={pageSize}
+                          onChange={handlePageSizeChange}
+                        >
+                          <option value="5">5 por página</option>
+                          <option value="10">10 por página</option>
+                          <option value="20">20 por página</option>
+                        </select>
+                        <button 
+                          onClick={handlePrevCompletedPage}
+                          disabled={!completedSimulados.data?.meta.hasPrevPage}
+                          className="p-1 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <span className="text-sm font-medium">
+                          Página {completedSimulados.data?.meta.currentPage || 1} de {completedSimulados.data?.meta.totalPages || 1}
+                        </span>
+                        <button 
+                          onClick={handleNextCompletedPage}
+                          disabled={!completedSimulados.data?.meta.hasNextPage}
+                          className="p-1 rounded-md border border-gray-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          <ChevronRight className="w-5 h-5" />
+                        </button>
                       </div>
                     </div>
-                    
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                      <div className="flex-1 mr-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-sm font-medium text-gray-700">Progresso</span>
-                          <span className="text-sm font-bold text-gray-900">
-                            {Math.round((simulado.acertos / simulado.total) * 100)}%
-                          </span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-3">
-                          <div 
-                            className="bg-gradient-to-r from-blue-500 to-blue-600 h-3 rounded-full transition-all duration-300" 
-                            style={{ width: `${(simulado.acertos / simulado.total) * 100}%` }}
-                          ></div>
-                        </div>
-                      </div>
-                      <button className="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-200 transition-colors font-medium">
-                        Ver Relatório Detalhado
-                      </button>
-                    </div>
-                  </div>
-                  ))
+                  </>
                 )}
-              </div>
-            )}
-
-            {activeTab === 'criar' && (
-              <div className="max-w-3xl">
-                <div className="mb-8">
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Criar Simulado Personalizado</h3>
-                  <p className="text-gray-600">Configure seu simulado de acordo com suas necessidades de estudo</p>
-                </div>
-                
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200 mb-8">
-                  <div className="space-y-6">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Nome do Simulado</label>
-                      <input
-                        type="text"
-                        className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white"
-                        placeholder="Ex: Meu Simulado de Direito Civil"
-                      />
-                    </div>
-                    
-                    <div className="grid md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Número de Questões</label>
-                        <select className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
-                          <option value="10">10 questões</option>
-                          <option value="20">20 questões</option>
-                          <option value="40">40 questões</option>
-                          <option value="80">80 questões (Prova Completa)</option>
-                        </select>
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-700 mb-2">Tempo Limite</label>
-                        <select className="w-full border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
-                          <option value="30">30 minutos</option>
-                          <option value="60">1 hora</option>
-                          <option value="120">2 horas</option>
-                          <option value="300">5 horas (Prova Completa)</option>
-                        </select>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-3">Disciplinas</label>
-                      <div className="grid md:grid-cols-2 gap-3">
-                        {['Direito Constitucional', 'Direito Civil', 'Direito Penal', 'Direito Processual Civil', 'Direito Processual Penal', 'Direito Administrativo'].map((disc) => (
-                          <label key={disc} className="flex items-center p-3 bg-white rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer">
-                            <input type="checkbox" className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3" />
-                            <span className="text-sm font-medium text-gray-700">{disc}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-3">Dificuldade</label>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                        {['Fácil', 'Média', 'Difícil', 'Mista'].map((diff) => (
-                          <label key={diff} className="flex items-center p-3 bg-white rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer">
-                            <input type="radio" name="dificuldade" className="text-blue-600 focus:ring-blue-500 mr-3" />
-                            <span className="text-sm font-medium text-gray-700">{diff}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="flex space-x-4 pt-4">
-                      <button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 font-medium shadow-lg hover:shadow-xl">
-                        Criar Simulado
-                      </button>
-                      <button className="bg-gray-100 text-gray-700 px-8 py-3 rounded-lg hover:bg-gray-200 transition-colors font-medium">
-                        Cancelar
-                      </button>
-                    </div>
-                  </div>
-                </div>
               </div>
             )}
           </div>

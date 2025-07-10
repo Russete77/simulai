@@ -1,7 +1,7 @@
-import React from 'react';
 import { useState } from 'react';
 import { BookOpen, Clock, BarChart3, FileText } from 'lucide-react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { ToastProvider } from './components/ui/Toast';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Features from './components/Features';
@@ -14,7 +14,7 @@ import QuestionsBank from './pages/QuestionsBank';
 import Simulados from './pages/Simulados';
 import Analytics from './pages/Analytics';
 import Resources from './pages/Resources';
-import { useEffect, useState as useAppState } from 'react';
+import { useEffect } from 'react';
 import { supabase } from './lib/supabase';
 
 function AppContent() {
@@ -28,34 +28,34 @@ function AppContent() {
   });
 
   useEffect(() => {
+    const loadUserStats = async () => {
+      if (!user) return;
+      
+      try {
+        const { data: userAnswers } = await supabase
+          .from('user_answers')
+          .select('*')
+          .eq('user_id', user.id);
+
+        const questionsAnswered = userAnswers?.length || 0;
+        const correctAnswers = userAnswers?.filter(a => a.is_correct).length || 0;
+        const accuracyRate = questionsAnswered > 0 ? Math.round((correctAnswers / questionsAnswered) * 100) : 0;
+
+        setUserStats({
+          questionsAnswered,
+          accuracyRate,
+          simuladosCompleted: 12, // Mock data
+          ranking: 127 // Mock data
+        });
+      } catch (error) {
+        console.error('Erro ao carregar estatísticas:', error);
+      }
+    };
+    
     if (user) {
       loadUserStats();
     }
   }, [user]);
-
-  const loadUserStats = async () => {
-    if (!user) return;
-    
-    try {
-      const { data: userAnswers } = await supabase
-        .from('user_answers')
-        .select('*')
-        .eq('user_id', user.id);
-
-      const questionsAnswered = userAnswers?.length || 0;
-      const correctAnswers = userAnswers?.filter(a => a.is_correct).length || 0;
-      const accuracyRate = questionsAnswered > 0 ? Math.round((correctAnswers / questionsAnswered) * 100) : 0;
-
-      setUserStats({
-        questionsAnswered,
-        accuracyRate,
-        simuladosCompleted: 12, // Mock data
-        ranking: 127 // Mock data
-      });
-    } catch (error) {
-      console.error('Erro ao carregar estatísticas:', error);
-    }
-  };
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
@@ -293,7 +293,9 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
+      <ToastProvider>
+        <AppContent />
+      </ToastProvider>
     </AuthProvider>
   );
 }

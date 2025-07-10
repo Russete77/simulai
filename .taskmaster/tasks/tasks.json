@@ -452,8 +452,8 @@
             "title": "Substituição de dados mockados nos componentes",
             "description": "Refatorar os componentes React para substituir todos os dados mockados por chamadas reais à API, implementando estados de loading, erro e sucesso com feedback visual apropriado.",
             "dependencies": [],
-            "details": "1. Seguir a documentação criada na análise inicial para identificar componentes a serem refatorados\n2. Para cada componente:\n   - Substituir dados mockados pelos hooks de query/mutation criados\n   - Implementar renderização condicional baseada em estados (isLoading, isError, data)\n   - Adicionar componentes de feedback (Skeleton, ErrorMessage, etc)\n3. Criar componentes reutilizáveis para estados de loading e erro\n4. Implementar toast notifications para feedback de operações assíncronas\n5. Adicionar tratamento para casos de borda (dados vazios, respostas parciais)\n6. Garantir que a UI não quebre durante transições de estado\n7. Implementar retry manual para erros recuperáveis",
-            "status": "pending",
+            "details": "1. Seguir a documentação criada na análise inicial para identificar componentes a serem refatorados\n2. Para cada componente:\n   - Substituir dados mockados pelos hooks de query/mutation criados\n   - Implementar renderização condicional baseada em estados (isLoading, isError, data)\n   - Adicionar componentes de feedback (Skeleton, ErrorMessage, etc)\n3. Criar componentes reutilizáveis para estados de loading e erro\n4. Implementar toast notifications para feedback de operações assíncronas\n5. Adicionar tratamento para casos de borda (dados vazios, respostas parciais)\n6. Garantir que a UI não quebre durante transições de estado\n7. Implementar retry manual para erros recuperáveis\n<info added on 2025-07-10T21:08:47.421Z>\n**Refatoração da página Simulados**\n\n- Substituição de dados mockados por hooks React Query para busca de dados reais\n- Criação do hook `useMockSimuladosData` para dados temporários até finalização do backend\n- Implementação de estados de UI com componentes `LoadingCard`, `LoadingSpinner`, `ErrorMessage` e `EmptyState`\n- Desenvolvimento de hooks específicos: `useAvailableSimulados`, `useCompletedSimulados` e `useStartSimulation`\n- Configuração de invalidação de cache após operações bem-sucedidas\n- Adição de toast notifications para feedback de operações\n- Implementação de estados visuais durante mutations (botões com spinner e estados disabled)\n- Correção de tipos TypeScript, props de componentes e remoção de imports não utilizados\n- Commit b474a91 enviado para o GitHub com todas as implementações\n</info added on 2025-07-10T21:08:47.421Z>",
+            "status": "done",
             "testStrategy": "Criar testes de componente utilizando React Testing Library para verificar o comportamento dos componentes em diferentes estados (loading, erro, sucesso) e garantir que a UI se comporta conforme esperado."
           },
           {
@@ -479,7 +479,7 @@
     ],
     "metadata": {
       "created": "2025-07-09T23:46:03.268Z",
-      "updated": "2025-07-10T20:42:59.489Z",
+      "updated": "2025-07-10T21:08:55.376Z",
       "description": "Tasks for master context"
     }
   }

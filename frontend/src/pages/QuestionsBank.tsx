@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import { Search, Filter, BookOpen, Clock, CheckCircle, XCircle, Star, ArrowRight, Eye, Target, Award, TrendingUp } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, Filter, BookOpen, Clock, CheckCircle, XCircle, Star, Eye, Target, Award, TrendingUp } from 'lucide-react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
 import type { Database } from '../lib/supabase';
