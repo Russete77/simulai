@@ -1,24 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
+import { AnalyticsService } from '../services/analyticsService';
+import type { AnalyticsData } from '../types/api';
 
-interface AnalyticsData {
-  totalQuestions: number;
-  answeredQuestions: number;
-  correctAnswers: number;
-  accuracyRate: number;
-  subjectPerformance: Array<{
-    subject: string;
-    total: number;
-    correct: number;
-    accuracy: number;
-  }>;
-  recentActivity: Array<{
-    date: string;
-    questionsAnswered: number;
-    accuracy: number;
-  }>;
-}
+// Interface movida para types/api.ts
 
 export function useAnalytics(period: string = '30d') {
   const { user } = useAuth();
@@ -33,7 +19,7 @@ export function useAnalytics(period: string = '30d') {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const loadAnalytics = async () => {
+  const loadAnalytics = useCallback(async () => {
     if (!user) return;
     
     try {
@@ -87,14 +73,11 @@ export function useAnalytics(period: string = '30d') {
         accuracy: Math.round((stats.correct / stats.total) * 100)
       }));
 
-      // Calculate recent activity (mock data for now)
-      const recentActivity = [
-        { date: '2024-01-15', questionsAnswered: 25, accuracy: 76 },
-        { date: '2024-01-14', questionsAnswered: 18, accuracy: 72 },
-        { date: '2024-01-13', questionsAnswered: 32, accuracy: 81 },
-        { date: '2024-01-12', questionsAnswered: 15, accuracy: 68 },
-        { date: '2024-01-11', questionsAnswered: 28, accuracy: 74 }
-      ];
+      // Buscar atividade recente via API
+      const recentActivity = await AnalyticsService.getRecentActivity({
+        period: period === '7d' ? '7d' : period === '30d' ? '30d' : '90d',
+        limit: 30
+      });
 
       setAnalytics({
         totalQuestions: totalQuestions || 0,
@@ -111,13 +94,13 @@ export function useAnalytics(period: string = '30d') {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user, period]);
 
   useEffect(() => {
     if (user) {
       loadAnalytics();
     }
-  }, [user, period]);
+  }, [user, period, loadAnalytics]);
 
   return {
     analytics,

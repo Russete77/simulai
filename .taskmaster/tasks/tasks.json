@@ -402,7 +402,7 @@
         "description": "Conectar o frontend React+Vite com o backend FastAPI, implementando todas as chamadas de API necessárias e removendo dados mockados para garantir o funcionamento real do sistema.",
         "details": "1. Análise e mapeamento:\n   - Identificar todos os pontos onde dados mockados estão sendo utilizados no frontend\n   - Mapear endpoints disponíveis no backend FastAPI\n   - Documentar estrutura de dados esperada para cada endpoint\n\n2. Configuração do cliente HTTP:\n   - Implementar cliente Axios configurado com interceptors para:\n     - Tratamento de erros padronizado\n     - Inclusão automática de tokens de autenticação\n     - Refresh de tokens expirados\n   - Configurar variáveis de ambiente para URLs de API em diferentes ambientes\n\n3. Implementação de serviços de API:\n   - Criar módulos de serviço para cada domínio funcional (auth, questões, simulados, etc.)\n   - Implementar funções para cada operação CRUD necessária\n   - Adicionar tipagem TypeScript para payloads e respostas\n   - Implementar cache de dados quando apropriado\n\n4. Integração com componentes React:\n   - Substituir dados mockados por chamadas reais à API\n   - Implementar estados de loading, erro e sucesso\n   - Utilizar React Query para gerenciamento de estado de servidor\n   - Adicionar feedback visual durante operações assíncronas\n\n5. Tratamento de erros e resiliência:\n   - Implementar retry para falhas de rede\n   - Criar componentes de fallback para exibição em caso de erro\n   - Adicionar logging de erros para diagnóstico\n   - Implementar mecanismos de recuperação de estado\n\n6. Otimização de performance:\n   - Implementar estratégias de cache (stale-while-revalidate)\n   - Configurar prefetching para rotas comuns\n   - Otimizar tamanho de payloads\n   - Implementar paginação e carregamento sob demanda",
         "testStrategy": "1. Testes unitários:\n   - Verificar funcionamento dos serviços de API isoladamente\n   - Testar interceptors e manipuladores de erro\n   - Validar transformações de dados\n\n2. Testes de integração:\n   - Testar fluxo completo de dados do frontend ao backend\n   - Verificar autenticação e autorização\n   - Validar comportamento com diferentes respostas da API\n\n3. Testes de regressão:\n   - Garantir que todas as funcionalidades continuam operando após a remoção dos mocks\n   - Verificar se os dados reais são exibidos corretamente na interface\n\n4. Testes de resiliência:\n   - Simular falhas de rede e latência alta\n   - Verificar comportamento com respostas de erro do servidor\n   - Testar timeout e retry\n\n5. Testes de performance:\n   - Medir tempo de resposta das chamadas de API\n   - Verificar impacto no carregamento inicial da aplicação\n   - Testar comportamento com grande volume de dados\n\n6. Validação manual:\n   - Executar fluxos completos de usuário em ambiente de staging\n   - Verificar consistência visual durante estados de loading\n   - Validar mensagens de erro amigáveis",
-        "status": "pending",
+        "status": "in-progress",
         "dependencies": [
           32,
           17,
@@ -479,7 +479,7 @@
     ],
     "metadata": {
       "created": "2025-07-09T23:46:03.268Z",
-      "updated": "2025-07-10T19:04:14.843Z",
+      "updated": "2025-07-10T19:14:29.516Z",
       "description": "Tasks for master context"
     }
   }
