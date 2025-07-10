@@ -1,0 +1,102 @@
+name: Mobile CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths: [ 'mobile/**' ]
+  pull_request:
+    branches: [ main ]
+    paths: [ 'mobile/**' ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: mobile/package-lock.json
+        
+    - name: Install dependencies
+      run: |
+        cd mobile
+        npm ci
+        
+    - name: Run linting
+      run: |
+        cd mobile
+        npm run lint
+        
+    - name: Run type checking
+      run: |
+        cd mobile
+        npm run type-check
+        
+    - name: Check formatting
+      run: |
+        cd mobile
+        npm run format -- --check
+
+  build-android:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: mobile/package-lock.json
+        
+    - name: Setup EAS CLI
+      run: npm install -g @expo/eas-cli
+      
+    - name: Install dependencies
+      run: |
+        cd mobile
+        npm ci
+        
+    - name: Build Android (EAS)
+      run: |
+        cd mobile
+        echo "🤖 EAS Build for Android will be configured after EAS setup"
+
+  build-ios:
+    needs: test
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: mobile/package-lock.json
+        
+    - name: Setup EAS CLI
+      run: npm install -g @expo/eas-cli
+      
+    - name: Install dependencies
+      run: |
+        cd mobile
+        npm ci
+        
+    - name: Build iOS (EAS)
+      run: |
+        cd mobile
+        echo "🍎 EAS Build for iOS will be configured after EAS setup"

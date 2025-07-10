@@ -1,0 +1,84 @@
+name: Project CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      frontend: ${{ steps.changes.outputs.frontend }}
+      backend: ${{ steps.changes.outputs.backend }}
+      mobile: ${{ steps.changes.outputs.mobile }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Detect changes
+      uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          frontend:
+            - 'frontend/**'
+          backend:
+            - 'backend/**'
+          mobile:
+            - 'mobile/**'
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Run security scan
+      uses: github/super-linter@v4
+      env:
+        DEFAULT_BRANCH: main
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        VALIDATE_ALL_CODEBASE: false
+        VALIDATE_DOCKERFILE: true
+        VALIDATE_JSON: true
+        VALIDATE_YAML: true
+        VALIDATE_MARKDOWN: true
+
+  dependency-check:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Check for vulnerabilities (Frontend)
+      if: needs.detect-changes.outputs.frontend == 'true'
+      run: |
+        cd frontend
+        npm audit --audit-level=high
+        
+    - name: Check for vulnerabilities (Mobile)
+      if: needs.detect-changes.outputs.mobile == 'true'
+      run: |
+        cd mobile
+        npm audit --audit-level=high
+        
+    - name: Check for vulnerabilities (Backend)
+      if: needs.detect-changes.outputs.backend == 'true'
+      run: |
+        cd backend
+        pip install safety
+        safety check -r requirements.txt
+
+  notify-success:
+    needs: [detect-changes, security-scan, dependency-check]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+    - name: Success notification
+      run: |
+        echo "🎉 All CI checks passed successfully!"
+        echo "✅ Security scan completed"
+        echo "✅ Dependency check completed"
+        echo "Ready for deployment! 🚀"
