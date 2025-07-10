@@ -1,0 +1,27 @@
+# Task ID: 24
+# Title: Desenvolvimento do Vade Mecum Interativo
+# Status: pending
+# Dependencies: 19
+# Priority: medium
+# Description: Implementar sistema de Vade Mecum interativo com sugestões contextuais de artigos, súmulas e jurisprudência relacionados às questões ou temas estudados.
+# Details:
+1. Criar banco de dados de legislação atualizada:
+   - Códigos principais (Civil, Penal, Processo Civil, etc.)
+   - Súmulas (STF, STJ, TST)
+   - Jurisprudência relevante
+2. Implementar sistema de busca contextual usando embeddings
+3. Desenvolver algoritmo de sugestão baseado no contexto atual do usuário
+4. Criar interface de navegação por tópicos e hierarquia legal
+5. Implementar sistema de favoritos e anotações pessoais
+6. Desenvolver visualização de conexões entre artigos relacionados
+7. Criar sistema de atualização automática da base legal
+8. Implementar histórico de consultas
+9. Desenvolver modo offline para app móvel
+10. Criar sistema de compartilhamento de anotações
+
+# Test Strategy:
+1. Validar precisão das sugestões contextuais
+2. Testar performance da busca com base grande
+3. Verificar atualização automática da legislação
+4. Testar sincronização de anotações entre dispositivos
+5. Validar funcionamento offline

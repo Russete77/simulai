@@ -1,0 +1,27 @@
+# Task ID: 17
+# Title: Implementação da Autenticação e Autorização
+# Status: pending
+# Dependencies: 16
+# Priority: high
+# Description: Desenvolver sistema de autenticação e autorização para controlar acesso às funcionalidades premium e gratuitas conforme modelo de monetização.
+# Details:
+1. Implementar autenticação via Supabase Auth com suporte para:
+   - Email/senha
+   - OAuth (Google, Apple, Microsoft)
+   - Magic link
+2. Criar middleware de autenticação no Next.js e FastAPI
+3. Implementar sistema de roles (free, premium)
+4. Desenvolver páginas de login, cadastro, recuperação de senha
+5. Implementar JWT para autenticação entre serviços
+6. Configurar Row Level Security no PostgreSQL
+7. Implementar refresh tokens para sessões persistentes
+8. Criar sistema de convites e referral
+9. Implementar proteção contra ataques de força bruta
+10. Adicionar autenticação biométrica no app móvel
+
+# Test Strategy:
+1. Testes unitários para fluxos de autenticação
+2. Testes de integração para verificar persistência de sessão
+3. Testes de segurança (penetration testing)
+4. Validar funcionamento em diferentes navegadores e dispositivos
+5. Testar cenários de falha (rede instável, tokens expirados)

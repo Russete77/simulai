@@ -6,23 +6,25 @@ Plataforma SaaS moderna e responsiva para preparação da OAB usando IA, oferece
 
 O Simulai OAB é uma plataforma completa que combina inteligência artificial com metodologias comprovadas de ensino para maximizar as chances de aprovação na OAB (1ª e 2ª fase).
 
-## 🏗️ Arquitetura
+## Arquitetura
 
 ```
-simulai-gera/
-├── frontend/          # Next.js 14 + React 18
+simulaigera/
+├── frontend/          # React 18 + Vite + TypeScript
 ├── backend/           # FastAPI + Python 3.11
 ├── mobile/            # React Native + Expo
+├── database/          # Supabase PostgreSQL Schema
 └── .taskmaster/       # Task management
 ```
 
-## 🚀 Tech Stack
+## Tech Stack
 
 ### Frontend (Web)
-- **Framework:** Next.js 14
-- **UI:** React 18 + TailwindCSS
-- **State:** Zustand
-- **Animations:** Framer Motion
+- **Framework:** React 18 + Vite
+- **Language:** TypeScript
+- **UI:** TailwindCSS + Lucide Icons
+- **Auth:** Supabase Auth
+- **Database:** Supabase (PostgreSQL)
 - **Deploy:** Vercel
 
 ### Backend (API)

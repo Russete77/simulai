@@ -9,6 +9,7 @@ from supabase import create_client, Client
 from typing import Dict, List, Any
 from datetime import datetime
 import pandas as pd
+from dotenv import load_dotenv
 
 class DatabaseValidator:
     def __init__(self):
@@ -333,10 +334,12 @@ class DatabaseValidator:
             
         except Exception as e:
             print(f"❌ Validation failed: {e}")
-            return False
 
 def main():
     """Main function to run validation."""
+    
+    # Load environment variables from parent directory
+    load_dotenv(dotenv_path='../.env')
     
     # Check environment variables
     if not os.getenv("SUPABASE_URL"):

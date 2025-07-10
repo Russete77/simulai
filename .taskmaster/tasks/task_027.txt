@@ -1,0 +1,30 @@
+# Task ID: 27
+# Title: Implementação da Comunidade com IA
+# Status: pending
+# Dependencies: 17
+# Priority: low
+# Description: Desenvolver fórum para dúvidas, comentários e grupos de estudo com moderação inicial por IA para manter a qualidade das interações.
+# Details:
+1. Criar sistema de fórum com categorias por disciplina e tópicos
+2. Implementar editor de texto rico para perguntas e respostas
+3. Desenvolver sistema de upvote/downvote e marcação de resposta correta
+4. Criar moderação automatizada por IA para:
+   - Detectar conteúdo inadequado
+   - Sugerir respostas para perguntas frequentes
+   - Categorizar automaticamente novas perguntas
+5. Implementar grupos de estudo com:
+   - Chat em tempo real
+   - Compartilhamento de recursos
+   - Agendamento de sessões
+6. Desenvolver sistema de reputação de usuários
+7. Criar notificações de respostas e menções
+8. Implementar busca avançada no fórum
+9. Desenvolver sistema de tags e filtros
+10. Criar integração com recursos de estudo da plataforma
+
+# Test Strategy:
+1. Testar moderação automática com diferentes tipos de conteúdo
+2. Validar funcionamento do editor de texto rico
+3. Verificar sistema de notificações
+4. Testar criação e gestão de grupos de estudo
+5. Validar performance com grande volume de posts

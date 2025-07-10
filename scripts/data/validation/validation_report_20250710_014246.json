@@ -1,0 +1,62 @@
+{
+  "timestamp": "2025-07-10T01:42:46.408585",
+  "supabase_url": "https://rctoeldueklgtotkaypg.supabase.co",
+  "validation_results": {
+    "schema": {
+      "tables_exist": {
+        "profiles": true,
+        "user_stats": true,
+        "questions": true,
+        "question_stats": true,
+        "simulations": true,
+        "user_simulations": true,
+        "user_question_history": true,
+        "flashcards": true,
+        "study_notes": true,
+        "achievements": true,
+        "user_achievements": true,
+        "study_streaks": true
+      },
+      "missing_tables": [],
+      "table_counts": {
+        "profiles": 0,
+        "user_stats": 0,
+        "questions": 0,
+        "question_stats": 0,
+        "simulations": 0,
+        "user_simulations": 0,
+        "user_question_history": 0,
+        "flashcards": 0,
+        "study_notes": 0,
+        "achievements": 10,
+        "user_achievements": 0,
+        "study_streaks": 0
+      },
+      "indexes_exist": true
+    },
+    "relationships": {
+      "question_stats_linked": 0,
+      "orphaned_stats": 0,
+      "valid_relationships": true
+    },
+    "rls": {
+      "policies_exist": true,
+      "tables_with_rls": [],
+      "policy_count": 0
+    },
+    "performance": {
+      "query_times": {
+        "get_categories": 0.141612,
+        "recent_questions": 0.136052
+      },
+      "slow_queries": []
+    }
+  },
+  "summary": {
+    "connection_ok": true,
+    "schema_valid": true,
+    "data_quality_ok": false,
+    "relationships_ok": true,
+    "performance_ok": true
+  }
+}

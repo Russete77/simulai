@@ -1,0 +1,24 @@
+# Task ID: 25
+# Title: Implementação de Recursos Complementares de Estudo
+# Status: pending
+# Dependencies: 20, 24
+# Priority: medium
+# Description: Desenvolver recursos complementares como flashcards automáticos, resumos, mapas mentais e vídeos curtos baseados no desempenho do aluno.
+# Details:
+1. Criar sistema de geração automática de flashcards usando GPT-4o
+2. Implementar algoritmo de repetição espaçada (Spaced Repetition System)
+3. Desenvolver gerador de resumos personalizados baseados em áreas de dificuldade
+4. Criar sistema de mapas mentais interativos usando biblioteca react-flow
+5. Implementar recomendação de vídeos curtos de terceiros (YouTube API)
+6. Desenvolver sistema de sugestões de leitura complementar
+7. Criar biblioteca pessoal de recursos salvos
+8. Implementar sistema de tags e organização
+9. Desenvolver sincronização offline para estudo sem internet
+10. Criar sistema de compartilhamento de recursos entre usuários
+
+# Test Strategy:
+1. Validar qualidade dos flashcards gerados automaticamente
+2. Testar algoritmo de repetição espaçada
+3. Verificar relevância dos resumos e mapas mentais
+4. Testar performance com grande volume de recursos
+5. Validar sincronização entre dispositivos

@@ -13,6 +13,10 @@ import uuid
 from datetime import datetime
 import re
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Load environment variables from parent directory
+load_dotenv(dotenv_path='../.env')
 
 # Configuration
 SUPABASE_URL = os.getenv("SUPABASE_URL")
@@ -162,7 +166,9 @@ class OABDatasetImporter:
         """Find value from row using possible column names."""
         for col in possible_columns:
             for actual_col in row.index:
-                if col.lower() in actual_col.lower():
+                # Convert actual_col to string to handle non-string column names
+                actual_col_str = str(actual_col).lower()
+                if col.lower() in actual_col_str:
                     value = row[actual_col]
                     if pd.notna(value) and str(value).strip():
                         return value
@@ -174,6 +180,26 @@ class OABDatasetImporter:
             return None
         
         try:
+            # Handle Hugging Face dataset format with 'label' and 'text' keys
+            if isinstance(options, dict) and 'label' in options and 'text' in options:
+                # Convert NumPy arrays to Python lists if needed
+                labels = list(options['label']) if hasattr(options['label'], '__iter__') else [options['label']]
+                texts = list(options['text']) if hasattr(options['text'], '__iter__') else [options['text']]
+                
+                # Pair labels with texts
+                processed = []
+                for label, text in zip(labels, texts):
+                    # Ensure label is a single character (A, B, C, etc.)
+                    if isinstance(label, str) and len(label) == 1 and label.isalpha():
+                        key = label.upper()
+                    else:
+                        # Fallback to A, B, C... if label is not a valid letter
+                        key = chr(65 + len(processed))
+                    
+                    processed.append({"key": key, "text": str(text).strip()})
+                
+                return processed
+            
             # If options is already a list/dict
             if isinstance(options, (list, dict)):
                 if isinstance(options, dict):
@@ -183,7 +209,7 @@ class OABDatasetImporter:
                     processed = []
                     for i, option in enumerate(options):
                         key = chr(65 + i)  # A, B, C, D, E
-                        processed.append({"key": key, "text": str(option)})
+                        processed.append({"key": key, "text": str(option).strip()})
                     return processed
             
             # If options is a string, try to parse it
@@ -193,25 +219,26 @@ class OABDatasetImporter:
             try:
                 parsed = json.loads(options_str)
                 if isinstance(parsed, dict):
-                    return [{"key": k, "text": str(v)} for k, v in parsed.items()]
+                    return [{"key": k, "text": str(v).strip()} for k, v in parsed.items()]
                 elif isinstance(parsed, list):
                     processed = []
                     for i, option in enumerate(parsed):
                         key = chr(65 + i)
-                        processed.append({"key": key, "text": str(option)})
+                        processed.append({"key": key, "text": str(option).strip()})
                     return processed
-            except json.JSONDecodeError:
+            except (json.JSONDecodeError, TypeError):
                 pass
             
             # Try to parse structured text (A) option1 (B) option2 etc.
-            pattern = r'\([A-E]\)\s*([^(]+?)(?=\([A-E]\)|$)'
+            pattern = r'\(([A-E])\)\s*([^(]+?)(?=\([A-E]\)|$)'
             matches = re.findall(pattern, options_str, re.IGNORECASE)
             
             if matches:
                 processed = []
-                for i, match in enumerate(matches):
-                    key = chr(65 + i)
-                    processed.append({"key": key, "text": match.strip()})
+                for match in matches:
+                    key = match[0].upper()
+                    text = match[1].strip()
+                    processed.append({"key": key, "text": text})
                 return processed
             
             # Fallback: split by common delimiters
@@ -222,10 +249,11 @@ class OABDatasetImporter:
                     if len(parts) >= 2:
                         processed = []
                         for i, part in enumerate(parts[:5]):  # Max 5 options
-                            if part.strip():
+                            part = part.strip()
+                            if part:
                                 key = chr(65 + i)
-                                processed.append({"key": key, "text": part.strip()})
-                        return processed
+                                processed.append({"key": key, "text": part})
+                        return processed if processed else None
             
             return None
             
@@ -238,7 +266,8 @@ class OABDatasetImporter:
         if not question_text:
             return 'Geral'
         
-        text_lower = question_text.lower()
+        # Convert to string before calling .lower() to handle cases where question_text is a number
+        text_lower = str(question_text).lower()
         
         categories = {
             'Direito Civil': ['civil', 'contrato', 'propriedade', 'família', 'sucessões'],
@@ -273,7 +302,7 @@ class OABDatasetImporter:
         ]
         
         if question_text:
-            text_lower = question_text.lower()
+            text_lower = str(question_text).lower()
             for term in legal_terms:
                 if term in text_lower:
                     tags.append(term)

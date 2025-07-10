@@ -1,0 +1,24 @@
+# Task ID: 16
+# Title: Configuração do Ambiente de Desenvolvimento
+# Status: pending
+# Dependencies: None
+# Priority: high
+# Description: Configurar o ambiente de desenvolvimento completo para o projeto Simulai OAB, incluindo repositórios, estrutura de projeto e ferramentas de CI/CD.
+# Details:
+1. Criar repositório Git no GitHub/GitLab com estrutura de monorepo
+2. Configurar ambiente Next.js 14 para frontend web com TypeScript e TailwindCSS 3.4+
+3. Configurar ambiente React Native 0.73+ com Expo para aplicativo móvel
+4. Configurar FastAPI 0.104+ para backend em Python 3.11+
+5. Configurar Supabase para PostgreSQL e autenticação
+6. Implementar Docker para desenvolvimento local consistente
+7. Configurar CI/CD com GitHub Actions ou GitLab CI
+8. Configurar ESLint, Prettier e Husky para garantir qualidade de código
+9. Preparar ambientes de desenvolvimento, staging e produção
+10. Documentar processo de setup para novos desenvolvedores
+
+# Test Strategy:
+1. Verificar se todos os ambientes podem ser inicializados sem erros
+2. Confirmar que os pipelines de CI/CD estão funcionando corretamente
+3. Testar integração entre frontend e backend
+4. Validar conexão com Supabase
+5. Garantir que todos os desenvolvedores conseguem executar o projeto localmente

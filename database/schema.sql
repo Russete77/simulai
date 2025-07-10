@@ -359,18 +359,81 @@ INSERT INTO public.achievements (name, description, icon, category, points, requ
 -- User performance view
 CREATE VIEW user_performance AS
 SELECT 
-    p.id as user_id,
-    p.full_name,
+    u.id as user_id,
+    u.email,
+    u.full_name,
+    u.subscription_tier,
     us.total_questions_answered,
     us.correct_answers,
-    ROUND((us.correct_answers::DECIMAL / NULLIF(us.total_questions_answered, 0)) * 100, 2) as accuracy_percentage,
-    us.current_streak,
-    us.longest_streak,
-    us.level,
-    us.experience_points,
-    us.last_activity_at
-FROM public.profiles p
-LEFT JOIN public.user_stats us ON p.id = us.user_id;
+    us.incorrect_answers,
+    ROUND((us.correct_answers::DECIMAL / NULLIF(us.total_questions_answered, 0)) * 100, 2) as success_rate,
+    us.average_time_per_question,
+    us.streak_days,
+    us.total_study_time_minutes,
+    (SELECT COUNT(*) FROM public.flashcards f WHERE f.user_id = u.id) as total_flashcards,
+    (SELECT COUNT(*) FROM public.study_notes n WHERE n.user_id = u.id) as total_notes,
+    (SELECT COUNT(*) FROM public.user_achievements ua WHERE ua.user_id = u.id) as total_achievements
+FROM 
+    public.profiles u
+LEFT JOIN 
+    public.user_stats us ON u.id = us.user_id;
+
+-- =====================================================
+-- DATABASE MAINTENANCE FUNCTIONS
+-- =====================================================
+
+-- Enable/disable triggers for a table
+CREATE OR REPLACE FUNCTION disable_triggers(table_name TEXT)
+RETURNS VOID AS $$
+DECLARE
+    stmt TEXT;
+BEGIN
+    stmt := 'ALTER TABLE ' || table_name || ' DISABLE TRIGGER ALL';
+    EXECUTE stmt;
+    RAISE NOTICE 'Disabled all triggers for table: %', table_name;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+CREATE OR REPLACE FUNCTION enable_triggers(table_name TEXT)
+RETURNS VOID AS $$
+DECLARE
+    stmt TEXT;
+BEGIN
+    stmt := 'ALTER TABLE ' || table_name || ' ENABLE TRIGGER ALL';
+    EXECUTE stmt;
+    RAISE NOTICE 'Enabled all triggers for table: %', table_name;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Truncate table with foreign key checks
+CREATE OR REPLACE FUNCTION truncate_table(table_name TEXT)
+RETURNS VOID AS $$
+BEGIN
+    EXECUTE 'TRUNCATE TABLE ' || table_name || ' CASCADE';
+    RAISE NOTICE 'Truncated table: %', table_name;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Reset sequences for a table
+CREATE OR REPLACE FUNCTION reset_sequence(table_name TEXT, column_name TEXT)
+RETURNS VOID AS $$
+DECLARE
+    seq_name TEXT;
+    max_id BIGINT;
+BEGIN
+    -- Get the sequence name
+    SELECT pg_get_serial_sequence(table_name, column_name) INTO seq_name;
+    
+    -- Get the maximum ID
+    EXECUTE 'SELECT COALESCE(MAX(' || column_name || '), 0) + 1 FROM ' || table_name INTO max_id;
+    
+    -- Reset the sequence
+    IF seq_name IS NOT NULL THEN
+        EXECUTE 'ALTER SEQUENCE ' || seq_name || ' RESTART WITH ' || max_id;
+        RAISE NOTICE 'Reset sequence % for %.% to %', seq_name, table_name, column_name, max_id;
+    END IF;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Question difficulty view
 CREATE VIEW question_difficulty AS

@@ -1,0 +1,80 @@
+# Task ID: 31
+# Title: Auditoria de Consistência entre Frontend Antigo e Novo
+# Status: pending
+# Dependencies: 20, 21, 22, 23, 24, 25, 26, 27, 28, 29
+# Priority: high
+# Description: Realizar auditoria completa do projeto, identificando inconsistências entre o frontend antigo removido e o novo frontend React+Vite, analisando pontos de integração com backend FastAPI e banco Supabase.
+# Details:
+1. Análise comparativa de funcionalidades:
+   - Mapear todas as funcionalidades do frontend antigo
+   - Verificar implementação correspondente no novo frontend React+Vite
+   - Documentar funcionalidades ausentes ou implementadas diferentemente
+
+2. Auditoria de integração com backend:
+   - Verificar todos os endpoints FastAPI utilizados
+   - Identificar inconsistências em chamadas de API
+   - Documentar diferenças em parâmetros, payloads e respostas
+   - Validar tratamento de erros e casos de borda
+
+3. Análise de acesso ao banco de dados:
+   - Mapear todas as operações de banco de dados (Supabase)
+   - Verificar permissões e políticas de segurança
+   - Identificar consultas ineficientes ou redundantes
+   - Documentar inconsistências no modelo de dados
+
+4. Auditoria de UX/UI:
+   - Comparar fluxos de usuário entre versões
+   - Identificar discrepâncias na experiência do usuário
+   - Documentar melhorias e regressões na interface
+
+5. Análise de desempenho:
+   - Comparar métricas de performance entre versões
+   - Identificar gargalos no novo frontend
+   - Documentar oportunidades de otimização
+
+6. Auditoria de segurança:
+   - Verificar vulnerabilidades potenciais introduzidas
+   - Validar implementação de autenticação e autorização
+   - Documentar problemas de segurança encontrados
+
+7. Elaboração de relatório detalhado:
+   - Listar todas as inconsistências encontradas
+   - Priorizar correções necessárias
+   - Recomendar melhorias e otimizações
+   - Criar plano de ação para resolução
+
+# Test Strategy:
+1. Verificação funcional:
+   - Criar lista de verificação com todas as funcionalidades do sistema
+   - Testar cada funcionalidade no frontend antigo e novo
+   - Documentar diferenças de comportamento
+
+2. Testes de integração:
+   - Utilizar ferramentas como Postman/Insomnia para testar todos os endpoints
+   - Comparar respostas da API entre as duas versões
+   - Validar tratamento de erros em ambas implementações
+
+3. Análise de banco de dados:
+   - Executar queries de auditoria para verificar integridade dos dados
+   - Comparar performance de consultas entre versões
+   - Validar consistência do modelo de dados
+
+4. Testes de usabilidade:
+   - Realizar testes A/B com usuários reais
+   - Coletar feedback sobre diferenças entre versões
+   - Documentar problemas de usabilidade
+
+5. Testes de performance:
+   - Utilizar Lighthouse/WebVitals para métricas objetivas
+   - Comparar tempos de carregamento e renderização
+   - Documentar diferenças significativas
+
+6. Auditoria de segurança:
+   - Executar ferramentas de análise estática de código
+   - Realizar testes de penetração básicos
+   - Verificar configurações de CORS e proteções contra ataques comuns
+
+7. Validação do relatório:
+   - Revisar achados com a equipe de desenvolvimento
+   - Confirmar prioridades de correção
+   - Validar viabilidade do plano de ação proposto

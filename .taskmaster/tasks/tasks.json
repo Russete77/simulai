@@ -2,314 +2,484 @@
   "master": {
     "tasks": [
       {
-        "id": 1,
-        "title": "Setup Project Repository and CI/CD Pipeline",
-        "description": "Initialize project repositories for frontend (React/Next.js, React Native) and backend (Python/FastAPI), configure CI/CD pipelines for Vercel (frontend) and Railway/Render (backend), and set up linting, testing, and deployment automation.",
-        "details": "Create GitHub repositories for frontend (React/Next.js v14, React Native v0.73) and backend (Python 3.11, FastAPI 0.109). Configure Vercel for Next.js deployment, Railway/Render for FastAPI. Use GitHub Actions for CI/CD. Set up ESLint, Prettier, and pytest for code quality.",
-        "testStrategy": "Verify repository setup, CI/CD pipeline execution, and successful deployment to staging environments.",
+        "id": 16,
+        "title": "Configuração do Ambiente de Desenvolvimento",
+        "description": "Configurar o ambiente de desenvolvimento completo para o projeto Simulai OAB, incluindo repositórios, estrutura de projeto e ferramentas de CI/CD.",
+        "details": "1. Criar repositório Git no GitHub/GitLab com estrutura de monorepo\n2. Configurar ambiente Next.js 14 para frontend web com TypeScript e TailwindCSS 3.4+\n3. Configurar ambiente React Native 0.73+ com Expo para aplicativo móvel\n4. Configurar FastAPI 0.104+ para backend em Python 3.11+\n5. Configurar Supabase para PostgreSQL e autenticação\n6. Implementar Docker para desenvolvimento local consistente\n7. Configurar CI/CD com GitHub Actions ou GitLab CI\n8. Configurar ESLint, Prettier e Husky para garantir qualidade de código\n9. Preparar ambientes de desenvolvimento, staging e produção\n10. Documentar processo de setup para novos desenvolvedores",
+        "testStrategy": "1. Verificar se todos os ambientes podem ser inicializados sem erros\n2. Confirmar que os pipelines de CI/CD estão funcionando corretamente\n3. Testar integração entre frontend e backend\n4. Validar conexão com Supabase\n5. Garantir que todos os desenvolvedores conseguem executar o projeto localmente",
         "priority": "high",
         "dependencies": [],
-        "status": "done",
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 17,
+        "title": "Implementação da Autenticação e Autorização",
+        "description": "Desenvolver sistema de autenticação e autorização para controlar acesso às funcionalidades premium e gratuitas conforme modelo de monetização.",
+        "details": "1. Implementar autenticação via Supabase Auth com suporte para:\n   - Email/senha\n   - OAuth (Google, Apple, Microsoft)\n   - Magic link\n2. Criar middleware de autenticação no Next.js e FastAPI\n3. Implementar sistema de roles (free, premium)\n4. Desenvolver páginas de login, cadastro, recuperação de senha\n5. Implementar JWT para autenticação entre serviços\n6. Configurar Row Level Security no PostgreSQL\n7. Implementar refresh tokens para sessões persistentes\n8. Criar sistema de convites e referral\n9. Implementar proteção contra ataques de força bruta\n10. Adicionar autenticação biométrica no app móvel",
+        "testStrategy": "1. Testes unitários para fluxos de autenticação\n2. Testes de integração para verificar persistência de sessão\n3. Testes de segurança (penetration testing)\n4. Validar funcionamento em diferentes navegadores e dispositivos\n5. Testar cenários de falha (rede instável, tokens expirados)",
+        "priority": "high",
+        "dependencies": [
+          16
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 18,
+        "title": "Modelagem e Implementação do Banco de Dados",
+        "description": "Projetar e implementar o esquema de banco de dados PostgreSQL via Supabase para armazenar questões, usuários, histórico de desempenho e demais entidades do sistema.",
+        "details": "1. Modelar esquema relacional com as seguintes tabelas principais:\n   - users (perfil, preferências, plano)\n   - questions (questões da 1ª fase com metadados)\n   - essays (questões discursivas da 2ª fase)\n   - attempts (tentativas de resposta)\n   - performance_metrics (métricas de desempenho)\n   - study_plans (planos de estudo)\n   - flashcards (cartões de estudo)\n   - legal_references (artigos, súmulas, jurisprudência)\n2. Implementar migrations usando Supabase CLI\n3. Configurar índices para consultas frequentes\n4. Implementar funções RPC no PostgreSQL para operações complexas\n5. Configurar backup automático\n6. Implementar políticas de RLS (Row Level Security)\n7. Criar views para relatórios e dashboards\n8. Configurar triggers para atualização automática de estatísticas\n9. Implementar particionamento para tabelas grandes (questions, attempts)\n10. Documentar o esquema com diagramas ER",
+        "testStrategy": "1. Testes de integridade referencial\n2. Testes de performance para consultas frequentes\n3. Validação de políticas de segurança\n4. Testes de carga para simular uso intensivo\n5. Verificar funcionamento das migrations e rollbacks",
+        "priority": "high",
+        "dependencies": [
+          16
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 19,
+        "title": "Importação e Processamento do Dataset de Questões",
+        "description": "Importar e processar o dataset de mais de 5.000 questões da FGV do Hugging Face, estruturando-o para uso eficiente no sistema.",
+        "details": "1. Desenvolver script Python para importação do dataset do Hugging Face usando datasets.load_dataset()\n2. Processar e normalizar dados:\n   - Classificar questões por disciplina, tema, ano, banca\n   - Extrair artigos citados usando regex e NLP\n   - Calcular nível de dificuldade baseado em estatísticas históricas\n   - Gerar embeddings para cada questão usando sentence-transformers\n3. Implementar pipeline de ETL para atualização periódica\n4. Criar índices de busca vetorial no PostgreSQL usando pgvector\n5. Desenvolver sistema de versionamento para o dataset\n6. Implementar validação e limpeza de dados\n7. Criar metadados adicionais como palavras-chave e tópicos relacionados\n8. Desenvolver API para acesso eficiente às questões\n9. Implementar cache para questões frequentemente acessadas\n10. Documentar estrutura e formato dos dados processados",
+        "testStrategy": "1. Validar integridade dos dados importados\n2. Testar performance de consultas por diferentes filtros\n3. Verificar precisão dos embeddings e buscas semânticas\n4. Testar pipeline de atualização com novos dados\n5. Validar classificação automática de questões",
+        "priority": "high",
+        "dependencies": [
+          18
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 20,
+        "title": "Desenvolvimento do Banco de Questões Inteligente (1ª Fase)",
+        "description": "Implementar o módulo de banco de questões com filtros avançados, feedback imediato e histórico de desempenho conforme especificado no PRD.",
+        "details": "1. Desenvolver interface de usuário para navegação e filtragem de questões usando React e TailwindCSS\n2. Implementar os seguintes filtros:\n   - Disciplina (dropdown com múltipla seleção)\n   - Tema (busca com autocomplete)\n   - Ano (slider de intervalo)\n   - Banca (checkbox)\n   - Dificuldade (3-5 níveis)\n   - Artigos citados (busca com tags)\n3. Criar componente de exibição de questão com alternativas\n4. Implementar sistema de feedback imediato após resposta\n5. Desenvolver explicações detalhadas para cada alternativa usando GPT-4o\n6. Criar visualização de histórico de desempenho por questão\n7. Implementar sistema de favoritos e marcação para revisão\n8. Desenvolver algoritmo de recomendação de próximas questões\n9. Criar modo de estudo espaçado baseado na curva de esquecimento\n10. Implementar sincronização offline para app móvel",
+        "testStrategy": "1. Testes unitários para componentes de UI\n2. Testes de integração para verificar funcionamento dos filtros\n3. Testes de usabilidade com usuários reais\n4. Validar performance com grande volume de questões\n5. Testar sincronização entre dispositivos",
+        "priority": "high",
+        "dependencies": [
+          17,
+          19
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 21,
+        "title": "Implementação do Sistema de Simulados",
+        "description": "Desenvolver o módulo de simulados com modos Prova Real e Personalizado para 1ª fase, e simulados discursivos para 2ª fase.",
+        "details": "1. Criar interface para configuração de simulados:\n   - Modo Prova Real (80 questões, 5 horas, sem correção instantânea)\n   - Modo Personalizado (seleção de temas, número de questões, dificuldade)\n2. Implementar temporizador com salvamento automático de progresso\n3. Desenvolver algoritmo de seleção de questões baseado em:\n   - Distribuição por disciplinas conforme edital atual da FGV\n   - Balanceamento de dificuldade\n   - Histórico de desempenho do usuário\n4. Criar interface para simulados da 2ª fase com editor de texto avançado\n5. Implementar templates para diferentes peças processuais\n6. Desenvolver sistema de salvamento automático e exportação em PDF\n7. Criar dashboard de resultados e análise de desempenho\n8. Implementar comparação com médias históricas da FGV\n9. Desenvolver sistema de recomendações pós-simulado\n10. Criar funcionalidade de revisão de erros",
+        "testStrategy": "1. Testes de carga para simulados completos\n2. Validar salvamento automático em diferentes cenários\n3. Testar algoritmo de seleção de questões\n4. Verificar precisão do temporizador\n5. Testar exportação de resultados e relatórios",
+        "priority": "medium",
+        "dependencies": [
+          20
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 22,
+        "title": "Desenvolvimento do Sistema de Correção Automatizada por IA (2ª Fase)",
+        "description": "Implementar sistema de correção automatizada por IA para peças processuais e questões discursivas da 2ª fase da OAB.",
+        "details": "1. Desenvolver prompt engineering avançado para GPT-4o ou modelo local via Ollama\n2. Implementar rubricas de avaliação baseadas nos critérios da FGV:\n   - Estrutura formal da peça (20%)\n   - Linguagem jurídica adequada (20%)\n   - Fundamentação legal correta (30%)\n   - Argumentação lógica (30%)\n3. Criar sistema de feedback detalhado com sugestões de melhoria\n4. Implementar comparação com modelos de resposta da FGV\n5. Desenvolver visualização de correção com marcações no texto\n6. Criar sistema de revisão humana para calibração do modelo\n7. Implementar cache de correções para otimização\n8. Desenvolver métricas de confiabilidade da correção\n9. Criar sistema de aprendizado contínuo com feedback dos usuários\n10. Implementar detecção de plágio e uso indevido de IA",
+        "testStrategy": "1. Comparar correções automatizadas com correções humanas\n2. Testar com diferentes estilos de escrita e qualidade\n3. Validar consistência das correções\n4. Testar com peças processuais reais de exames anteriores\n5. Avaliar tempo de resposta e otimizações",
+        "priority": "high",
+        "dependencies": [
+          21
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 23,
+        "title": "Implementação do Plano de Estudos Adaptativo",
+        "description": "Desenvolver sistema de plano de estudos personalizado que se adapta com base no desempenho do usuário e prioriza áreas de menor rendimento.",
+        "details": "1. Criar algoritmo de geração de plano inicial baseado em:\n   - Tempo disponível até a prova\n   - Áreas de interesse/atuação\n   - Conhecimento prévio (auto-avaliação)\n2. Implementar sistema de adaptação contínua baseado em:\n   - Desempenho em questões e simulados\n   - Tempo dedicado a cada disciplina\n   - Dificuldade percebida pelo usuário\n3. Desenvolver visualização de calendário com React Big Calendar\n4. Criar sistema de notificações e lembretes\n5. Implementar integração com calendários externos (Google, Apple)\n6. Desenvolver dashboard de progresso por disciplina\n7. Criar recomendações diárias de estudo\n8. Implementar ajustes manuais ao plano\n9. Desenvolver sistema de metas e objetivos\n10. Criar relatórios semanais de progresso",
+        "testStrategy": "1. Testar adaptação do plano com diferentes perfis de usuário\n2. Validar balanceamento entre disciplinas\n3. Verificar sincronização com calendários externos\n4. Testar notificações em diferentes dispositivos\n5. Validar persistência de ajustes manuais",
+        "priority": "medium",
+        "dependencies": [
+          20,
+          22
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 24,
+        "title": "Desenvolvimento do Vade Mecum Interativo",
+        "description": "Implementar sistema de Vade Mecum interativo com sugestões contextuais de artigos, súmulas e jurisprudência relacionados às questões ou temas estudados.",
+        "details": "1. Criar banco de dados de legislação atualizada:\n   - Códigos principais (Civil, Penal, Processo Civil, etc.)\n   - Súmulas (STF, STJ, TST)\n   - Jurisprudência relevante\n2. Implementar sistema de busca contextual usando embeddings\n3. Desenvolver algoritmo de sugestão baseado no contexto atual do usuário\n4. Criar interface de navegação por tópicos e hierarquia legal\n5. Implementar sistema de favoritos e anotações pessoais\n6. Desenvolver visualização de conexões entre artigos relacionados\n7. Criar sistema de atualização automática da base legal\n8. Implementar histórico de consultas\n9. Desenvolver modo offline para app móvel\n10. Criar sistema de compartilhamento de anotações",
+        "testStrategy": "1. Validar precisão das sugestões contextuais\n2. Testar performance da busca com base grande\n3. Verificar atualização automática da legislação\n4. Testar sincronização de anotações entre dispositivos\n5. Validar funcionamento offline",
+        "priority": "medium",
+        "dependencies": [
+          19
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 25,
+        "title": "Implementação de Recursos Complementares de Estudo",
+        "description": "Desenvolver recursos complementares como flashcards automáticos, resumos, mapas mentais e vídeos curtos baseados no desempenho do aluno.",
+        "details": "1. Criar sistema de geração automática de flashcards usando GPT-4o\n2. Implementar algoritmo de repetição espaçada (Spaced Repetition System)\n3. Desenvolver gerador de resumos personalizados baseados em áreas de dificuldade\n4. Criar sistema de mapas mentais interativos usando biblioteca react-flow\n5. Implementar recomendação de vídeos curtos de terceiros (YouTube API)\n6. Desenvolver sistema de sugestões de leitura complementar\n7. Criar biblioteca pessoal de recursos salvos\n8. Implementar sistema de tags e organização\n9. Desenvolver sincronização offline para estudo sem internet\n10. Criar sistema de compartilhamento de recursos entre usuários",
+        "testStrategy": "1. Validar qualidade dos flashcards gerados automaticamente\n2. Testar algoritmo de repetição espaçada\n3. Verificar relevância dos resumos e mapas mentais\n4. Testar performance com grande volume de recursos\n5. Validar sincronização entre dispositivos",
+        "priority": "medium",
+        "dependencies": [
+          20,
+          24
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 26,
+        "title": "Desenvolvimento do Sistema de Gamificação",
+        "description": "Implementar sistema de gamificação com pontos, streaks, badges, rankings e desafios para aumentar o engajamento dos usuários.",
+        "details": "1. Desenvolver sistema de pontuação baseado em:\n   - Questões respondidas\n   - Tempo de estudo\n   - Simulados completados\n   - Metas atingidas\n2. Implementar streaks de estudo diário\n3. Criar sistema de badges para conquistas:\n   - Domínio de disciplinas\n   - Consistência de estudo\n   - Superação de desafios\n4. Desenvolver rankings semanais e mensais\n5. Criar sistema de desafios diários sugeridos por IA\n6. Implementar recompensas visuais e celebrações de progresso\n7. Desenvolver estatísticas detalhadas de progresso\n8. Criar sistema de níveis de experiência\n9. Implementar notificações de conquistas\n10. Desenvolver integração com redes sociais para compartilhamento",
+        "testStrategy": "1. Testar cálculo correto de pontos e streaks\n2. Validar desbloqueio de badges conforme critérios\n3. Verificar atualização de rankings\n4. Testar geração de desafios personalizados\n5. Validar experiência de usuário das celebrações",
+        "priority": "low",
+        "dependencies": [
+          20,
+          21,
+          23
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 27,
+        "title": "Implementação da Comunidade com IA",
+        "description": "Desenvolver fórum para dúvidas, comentários e grupos de estudo com moderação inicial por IA para manter a qualidade das interações.",
+        "details": "1. Criar sistema de fórum com categorias por disciplina e tópicos\n2. Implementar editor de texto rico para perguntas e respostas\n3. Desenvolver sistema de upvote/downvote e marcação de resposta correta\n4. Criar moderação automatizada por IA para:\n   - Detectar conteúdo inadequado\n   - Sugerir respostas para perguntas frequentes\n   - Categorizar automaticamente novas perguntas\n5. Implementar grupos de estudo com:\n   - Chat em tempo real\n   - Compartilhamento de recursos\n   - Agendamento de sessões\n6. Desenvolver sistema de reputação de usuários\n7. Criar notificações de respostas e menções\n8. Implementar busca avançada no fórum\n9. Desenvolver sistema de tags e filtros\n10. Criar integração com recursos de estudo da plataforma",
+        "testStrategy": "1. Testar moderação automática com diferentes tipos de conteúdo\n2. Validar funcionamento do editor de texto rico\n3. Verificar sistema de notificações\n4. Testar criação e gestão de grupos de estudo\n5. Validar performance com grande volume de posts",
+        "priority": "low",
+        "dependencies": [
+          17
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 28,
+        "title": "Implementação do Sistema de Monetização",
+        "description": "Desenvolver sistema de monetização com modelo freemium, incluindo planos premium com diferentes níveis de acesso e processamento de pagamentos.",
+        "details": "1. Implementar modelo freemium com:\n   - Acesso limitado a questões (500 questões)\n   - Simulados básicos (1 por semana)\n   - Recursos complementares limitados\n2. Criar planos premium (R$50-200/mês) com:\n   - Correção ilimitada de discursivas\n   - Plano de estudos dinâmico\n   - Simulados ilimitados\n   - Acesso completo à comunidade\n   - Estatísticas avançadas\n3. Integrar gateway de pagamento (Stripe/MercadoPago)\n4. Implementar sistema de assinaturas recorrentes\n5. Desenvolver página de comparação de planos\n6. Criar sistema de cupons e promoções\n7. Implementar período de teste gratuito\n8. Desenvolver sistema de referral/indicação\n9. Criar dashboard administrativo para métricas financeiras\n10. Implementar notificações de cobrança e renovação",
+        "testStrategy": "1. Testar fluxo completo de assinatura\n2. Validar restrições de acesso por tipo de plano\n3. Verificar processamento de pagamentos\n4. Testar cancelamentos e reembolsos\n5. Validar funcionamento de cupons e promoções",
+        "priority": "medium",
+        "dependencies": [
+          17,
+          20,
+          21,
+          22
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 29,
+        "title": "Desenvolvimento do Dashboard de Métricas e Analytics",
+        "description": "Implementar dashboard com métricas de sucesso, incluindo taxa de aprovação estimada, usuários ativos, tempo de estudo, taxa de conclusão de simulados e NPS.",
+        "details": "1. Desenvolver dashboard administrativo com:\n   - Taxa de aprovação estimada dos usuários\n   - Métricas de usuários ativos (DAU/MAU)\n   - Tempo médio de estudo diário\n   - Taxa de simulado completo vs. iniciado\n   - NPS e taxa de retenção (30, 60, 90 dias)\n2. Implementar visualizações interativas com ECharts/Recharts\n3. Criar sistema de coleta de dados de uso (analytics)\n4. Desenvolver relatórios automáticos semanais/mensais\n5. Implementar alertas para métricas críticas\n6. Criar segmentação de usuários por perfil\n7. Desenvolver análise de funil de conversão\n8. Implementar heatmaps de uso da plataforma\n9. Criar sistema de feedback e pesquisas (NPS)\n10. Desenvolver visualização de tendências ao longo do tempo",
+        "testStrategy": "1. Validar precisão dos dados coletados\n2. Testar performance com grande volume de dados\n3. Verificar geração correta de relatórios\n4. Testar sistema de alertas\n5. Validar cálculos de métricas compostas",
+        "priority": "low",
+        "dependencies": [
+          28
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 30,
+        "title": "Testes, Otimização e Preparação para Lançamento",
+        "description": "Realizar testes abrangentes, otimizações de performance e preparação final para lançamento da plataforma.",
+        "details": "1. Executar testes de carga e performance:\n   - Simular 1000+ usuários simultâneos\n   - Testar limites de banco de dados\n   - Verificar tempos de resposta\n2. Implementar otimizações:\n   - Lazy loading e code splitting\n   - Caching estratégico\n   - Compressão de assets\n   - CDN para conteúdo estático\n3. Realizar testes de usabilidade com usuários reais\n4. Implementar melhorias de acessibilidade (WCAG 2.1)\n5. Otimizar SEO para páginas públicas\n6. Configurar monitoramento e alertas (Sentry, DataDog)\n7. Preparar documentação de usuário e FAQ\n8. Criar material de onboarding\n9. Implementar sistema de feedback para versão beta\n10. Preparar estratégia de lançamento gradual",
+        "testStrategy": "1. Executar testes E2E com Cypress/Playwright\n2. Validar métricas de performance (Lighthouse, Web Vitals)\n3. Testar em diferentes dispositivos e navegadores\n4. Realizar auditoria de segurança\n5. Validar experiência de onboarding com usuários novos",
+        "priority": "medium",
+        "dependencies": [
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": 31,
+        "title": "Auditoria de Consistência entre Frontend Antigo e Novo",
+        "description": "Realizar auditoria completa do projeto, identificando inconsistências entre o frontend antigo removido e o novo frontend React+Vite, analisando pontos de integração com backend FastAPI e banco Supabase.",
+        "details": "1. Análise comparativa de funcionalidades:\n   - Mapear todas as funcionalidades do frontend antigo\n   - Verificar implementação correspondente no novo frontend React+Vite\n   - Documentar funcionalidades ausentes ou implementadas diferentemente\n\n2. Auditoria de integração com backend:\n   - Verificar todos os endpoints FastAPI utilizados\n   - Identificar inconsistências em chamadas de API\n   - Documentar diferenças em parâmetros, payloads e respostas\n   - Validar tratamento de erros e casos de borda\n\n3. Análise de acesso ao banco de dados:\n   - Mapear todas as operações de banco de dados (Supabase)\n   - Verificar permissões e políticas de segurança\n   - Identificar consultas ineficientes ou redundantes\n   - Documentar inconsistências no modelo de dados\n\n4. Auditoria de UX/UI:\n   - Comparar fluxos de usuário entre versões\n   - Identificar discrepâncias na experiência do usuário\n   - Documentar melhorias e regressões na interface\n\n5. Análise de desempenho:\n   - Comparar métricas de performance entre versões\n   - Identificar gargalos no novo frontend\n   - Documentar oportunidades de otimização\n\n6. Auditoria de segurança:\n   - Verificar vulnerabilidades potenciais introduzidas\n   - Validar implementação de autenticação e autorização\n   - Documentar problemas de segurança encontrados\n\n7. Elaboração de relatório detalhado:\n   - Listar todas as inconsistências encontradas\n   - Priorizar correções necessárias\n   - Recomendar melhorias e otimizações\n   - Criar plano de ação para resolução",
+        "testStrategy": "1. Verificação funcional:\n   - Criar lista de verificação com todas as funcionalidades do sistema\n   - Testar cada funcionalidade no frontend antigo e novo\n   - Documentar diferenças de comportamento\n\n2. Testes de integração:\n   - Utilizar ferramentas como Postman/Insomnia para testar todos os endpoints\n   - Comparar respostas da API entre as duas versões\n   - Validar tratamento de erros em ambas implementações\n\n3. Análise de banco de dados:\n   - Executar queries de auditoria para verificar integridade dos dados\n   - Comparar performance de consultas entre versões\n   - Validar consistência do modelo de dados\n\n4. Testes de usabilidade:\n   - Realizar testes A/B com usuários reais\n   - Coletar feedback sobre diferenças entre versões\n   - Documentar problemas de usabilidade\n\n5. Testes de performance:\n   - Utilizar Lighthouse/WebVitals para métricas objetivas\n   - Comparar tempos de carregamento e renderização\n   - Documentar diferenças significativas\n\n6. Auditoria de segurança:\n   - Executar ferramentas de análise estática de código\n   - Realizar testes de penetração básicos\n   - Verificar configurações de CORS e proteções contra ataques comuns\n\n7. Validação do relatório:\n   - Revisar achados com a equipe de desenvolvimento\n   - Confirmar prioridades de correção\n   - Validar viabilidade do plano de ação proposto",
+        "status": "pending",
+        "dependencies": [
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29
+        ],
+        "priority": "high",
         "subtasks": [
           {
             "id": 1,
-            "title": "Initialize GitHub Repositories for Frontend and Backend",
-            "description": "Create separate GitHub repositories for the frontend (React/Next.js v14, React Native v0.73) and backend (Python 3.11, FastAPI 0.109) projects.",
+            "title": "Mapeamento de Funcionalidades do Frontend Antigo",
+            "description": "Criar um inventário completo de todas as funcionalidades, telas e componentes presentes no frontend antigo que foi removido.",
             "dependencies": [],
-            "details": "Set up two repositories on GitHub: one for the frontend codebase and one for the backend. Ensure each repository is initialized with a README and appropriate .gitignore files for their respective technologies.",
-            "status": "done",
-            "testStrategy": "Verify that both repositories are accessible, can be cloned, and accept pushes from authorized users."
+            "details": "Analisar o código-fonte do frontend antigo para identificar todas as funcionalidades implementadas. Criar uma planilha estruturada com categorias como: páginas principais, componentes reutilizáveis, formulários, visualizações de dados, funcionalidades de autenticação, etc. Para cada item, documentar seu propósito, comportamento esperado e quaisquer regras de negócio associadas.",
+            "status": "pending",
+            "testStrategy": "Revisão manual do código-fonte antigo e, se possível, execução da versão antiga em ambiente de desenvolvimento para capturar todas as funcionalidades."
           },
           {
             "id": 2,
-            "title": "Configure Linting and Testing Tools",
-            "description": "Set up ESLint and Prettier for the frontend repositories, and pytest for the backend repository to ensure code quality and consistency.",
+            "title": "Verificação de Implementação no Novo Frontend React+Vite",
+            "description": "Comparar sistematicamente as funcionalidades mapeadas do frontend antigo com suas implementações correspondentes no novo frontend React+Vite.",
             "dependencies": [
               1
             ],
-            "details": "Install and configure ESLint and Prettier in the React/Next.js and React Native repositories. Set up pytest in the FastAPI backend repository. Add configuration files and example test cases.",
-            "status": "done",
-            "testStrategy": "Run linting and test commands locally to confirm that code is checked for style and correctness, and that sample tests pass."
+            "details": "Utilizando o inventário criado na subtarefa anterior, verificar cada funcionalidade no novo frontend React+Vite. Documentar o status de cada item como: 'implementado completamente', 'implementado parcialmente', 'implementado diferentemente' ou 'não implementado'. Para itens não implementados completamente, documentar detalhes específicos das diferenças ou omissões.",
+            "status": "pending",
+            "testStrategy": "Teste funcional comparativo, executando ambas as versões lado a lado quando possível para identificar diferenças visuais e comportamentais."
           },
           {
             "id": 3,
-            "title": "Set Up CI/CD Pipelines with GitHub Actions",
-            "description": "Implement GitHub Actions workflows for automated linting, testing, and deployment triggers for both frontend and backend repositories.",
+            "title": "Auditoria de Chamadas de API e Integração com Backend FastAPI",
+            "description": "Analisar todas as chamadas de API feitas pelos frontends antigo e novo, identificando diferenças na integração com o backend FastAPI.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Extrair todas as chamadas de API do código-fonte de ambos os frontends. Comparar endpoints utilizados, parâmetros enviados, estrutura de payloads e processamento de respostas. Documentar inconsistências como: endpoints não utilizados no novo frontend, diferenças em parâmetros ou payloads, e variações no tratamento de respostas ou erros. Verificar se todas as funcionalidades do backend estão sendo corretamente aproveitadas.",
+            "status": "pending",
+            "testStrategy": "Utilizar ferramentas de interceptação de rede (como o painel Network do navegador) para capturar e comparar chamadas de API em cenários de uso equivalentes."
+          },
+          {
+            "id": 4,
+            "title": "Análise de Acesso e Operações no Supabase",
+            "description": "Mapear e comparar todas as operações de banco de dados realizadas através do Supabase em ambas as versões do frontend.",
+            "dependencies": [
+              1,
+              2
+            ],
+            "details": "Identificar todas as operações de banco de dados (consultas, inserções, atualizações, exclusões) em ambos os frontends. Verificar se as permissões e políticas de segurança do Supabase estão corretamente configuradas para o novo frontend. Analisar a eficiência das consultas, identificando oportunidades de otimização. Documentar inconsistências no modelo de dados ou na forma como os dados são acessados e manipulados.",
+            "status": "pending",
+            "testStrategy": "Análise de logs do Supabase durante operações equivalentes em ambos os frontends, comparando padrões de acesso e eficiência."
+          },
+          {
+            "id": 5,
+            "title": "Auditoria de UX/UI e Fluxos de Usuário",
+            "description": "Comparar a experiência do usuário e interface entre as versões antiga e nova, identificando discrepâncias nos fluxos de navegação e interação.",
             "dependencies": [
               2
             ],
-            "details": "Create workflow YAML files in each repository to automate linting, testing, and deployment steps. Ensure workflows run on push and pull request events.",
-            "status": "done",
-            "testStrategy": "Push code changes and verify that GitHub Actions workflows execute successfully, reporting lint/test results and triggering deployments."
+            "details": "Mapear os principais fluxos de usuário em ambas as versões (ex: login, cadastro, busca, visualização de detalhes, etc). Documentar diferenças na navegação, número de cliques necessários para completar tarefas, feedback visual e responsividade. Identificar melhorias implementadas no novo frontend, bem como possíveis regressões na experiência do usuário. Criar diagramas comparativos dos fluxos mais críticos.",
+            "status": "pending",
+            "testStrategy": "Testes de usabilidade com usuários reais ou simulados, seguindo roteiros de tarefas idênticos em ambas as versões."
           },
           {
-            "id": 4,
-            "title": "Configure Frontend Deployment to Vercel",
-            "description": "Connect the frontend repository to Vercel, configure build settings, and automate deployments on code changes.",
+            "id": 6,
+            "title": "Análise Comparativa de Desempenho",
+            "description": "Realizar testes de performance comparando métricas de desempenho entre o frontend antigo e o novo frontend React+Vite.",
             "dependencies": [
-              3
+              2
             ],
-            "details": "Link the Next.js repository to Vercel, select the correct framework preset, and ensure the build command is set (default or overridden as needed). Set up automatic deployments from the main branch and configure vercel.json if custom settings are required.[1][2][4]",
-            "status": "done",
-            "testStrategy": "Commit changes to the frontend repository and confirm that Vercel builds and deploys the application, making it accessible via the provided URL."
+            "details": "Medir e comparar métricas de performance como: tempo de carregamento inicial, tempo para interatividade, tamanho dos bundles, performance de renderização, consumo de memória e CPU. Identificar gargalos específicos no novo frontend, especialmente em operações intensivas ou com grandes volumes de dados. Documentar oportunidades de otimização, como implementação de lazy loading, memoização, ou otimização de renderização.",
+            "status": "pending",
+            "testStrategy": "Utilizar ferramentas como Lighthouse, WebPageTest e as ferramentas de desenvolvimento do navegador para coletar métricas objetivas de performance."
           },
           {
-            "id": 5,
-            "title": "Configure Backend Deployment to Railway or Render",
-            "description": "Connect the backend repository to Railway or Render, set up environment variables, and automate deployments on code changes.",
+            "id": 7,
+            "title": "Auditoria de Segurança e Autenticação",
+            "description": "Verificar a implementação de mecanismos de segurança, autenticação e autorização no novo frontend, comparando com as práticas do frontend antigo.",
             "dependencies": [
-              3
+              3,
+              4
             ],
-            "details": "Link the FastAPI repository to Railway or Render, configure build and start commands, and set up environment variables as needed. Enable automatic deployments from the main branch.",
-            "status": "done",
-            "testStrategy": "Push updates to the backend repository and verify that Railway or Render builds and deploys the FastAPI application, confirming the API is reachable."
+            "details": "Analisar a implementação de autenticação e autorização em ambos os frontends. Verificar o tratamento de tokens, sessões e permissões de usuário. Identificar possíveis vulnerabilidades introduzidas no novo frontend, como exposição de dados sensíveis, falta de validação de entrada, ou problemas de CSRF/XSS. Documentar práticas de segurança que foram melhoradas ou degradadas na nova implementação.",
+            "status": "pending",
+            "testStrategy": "Realizar testes de penetração básicos, verificação de cabeçalhos de segurança, e análise de código focada em padrões de segurança."
+          },
+          {
+            "id": 8,
+            "title": "Elaboração de Relatório Final e Plano de Ação",
+            "description": "Compilar todas as descobertas das auditorias anteriores em um relatório detalhado, priorizando inconsistências e criando um plano de ação para correções.",
+            "dependencies": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "details": "Consolidar todas as inconsistências, problemas e oportunidades de melhoria identificados nas subtarefas anteriores. Classificar cada item por severidade (crítica, alta, média, baixa) e esforço estimado para correção. Priorizar os itens com base em impacto no negócio e experiência do usuário. Criar um plano de ação detalhado com recomendações específicas para cada problema, incluindo abordagem técnica sugerida e estimativa de esforço. Apresentar o relatório em formato que facilite a tomada de decisão pela equipe de desenvolvimento.",
+            "status": "pending",
+            "testStrategy": "Revisão do relatório por múltiplos stakeholders para garantir clareza, completude e priorização adequada dos problemas identificados."
           }
         ]
       },
       {
-        "id": 2,
-        "title": "Design and Implement Core Database Schema",
-        "description": "Design and implement the PostgreSQL database schema for user management, questions, simulations, and performance tracking.",
-        "details": "Use Supabase for PostgreSQL. Define tables: users, questions, simulations, user_simulation_results, user_question_history, flashcards, summaries, gamification_stats. Use Supabase Auth for user management. Schema should support relationships and indexing for performance.",
-        "testStrategy": "Test schema creation, CRUD operations, and data integrity with sample data.",
-        "priority": "high",
+        "id": 32,
+        "title": "Migração do Frontend React+Vite para o Projeto Principal",
+        "description": "Migrar o novo frontend React+Vite do diretório externo para o projeto principal, ajustando configurações de build, deploy e integração com o backend FastAPI e banco Supabase.",
+        "details": "1. Análise da estrutura atual:\n   - Mapear dependências e configurações do frontend React+Vite no diretório externo\n   - Identificar pontos de integração com o backend FastAPI\n   - Documentar variáveis de ambiente e configurações específicas\n\n2. Preparação do ambiente no projeto principal:\n   - Criar estrutura de diretórios adequada seguindo padrões do monorepo\n   - Configurar package.json e dependências necessárias\n   - Ajustar configurações do Vite para o novo ambiente\n\n3. Migração do código:\n   - Transferir componentes, hooks, e utilitários mantendo a estrutura lógica\n   - Ajustar imports e paths relativos\n   - Migrar assets e recursos estáticos\n   - Atualizar rotas e navegação conforme necessário\n\n4. Configuração do build e deploy:\n   - Ajustar scripts de build para o novo ambiente\n   - Configurar CI/CD para o frontend integrado\n   - Implementar estratégia de versionamento compatível com o projeto principal\n   - Configurar ambientes de desenvolvimento, staging e produção\n\n5. Integração com backend:\n   - Atualizar endpoints e URLs de API\n   - Ajustar autenticação e autorização para funcionar no novo ambiente\n   - Verificar integração com Supabase\n   - Testar fluxos de dados entre frontend e backend\n\n6. Otimização e limpeza:\n   - Remover código duplicado ou desnecessário\n   - Implementar lazy loading e code splitting\n   - Otimizar bundle size\n   - Remover diretório externo após migração bem-sucedida",
+        "testStrategy": "1. Testes de integração:\n   - Verificar todas as chamadas de API entre frontend e backend\n   - Testar fluxos de autenticação e autorização\n   - Validar integração com Supabase\n\n2. Testes de build e deploy:\n   - Verificar processo de build em ambiente de desenvolvimento\n   - Testar pipeline de CI/CD completo\n   - Validar deploy em ambientes de staging e produção\n\n3. Testes de regressão:\n   - Executar testes automatizados existentes no novo ambiente\n   - Realizar testes manuais de funcionalidades críticas\n   - Comparar comportamento com a versão anterior\n\n4. Testes de performance:\n   - Medir tempos de carregamento antes e depois da migração\n   - Verificar tamanho do bundle e tempo de carregamento inicial\n   - Testar performance em dispositivos móveis\n\n5. Validação de configuração:\n   - Verificar variáveis de ambiente em todos os ambientes\n   - Testar configurações específicas de cada ambiente\n   - Validar funcionamento de features toggles",
+        "status": "done",
         "dependencies": [
-          1
+          31
         ],
-        "status": "in-progress",
+        "priority": "high",
         "subtasks": [
           {
             "id": 1,
-            "title": "Design Database Schema and Entity Relationships",
-            "description": "Create a comprehensive database schema design for all required tables with proper relationships, constraints, and indexes.",
+            "title": "Análise e documentação da estrutura do frontend React+Vite",
+            "description": "Realizar um mapeamento completo da estrutura atual do frontend React+Vite no diretório externo, documentando dependências, configurações e pontos de integração com o backend FastAPI e Supabase.",
             "dependencies": [],
-            "details": "Design the PostgreSQL schema with the following tables and relationships:\n1. users: id (PK), email, created_at, last_login, profile_data (JSONB)\n2. questions: id (PK), content, options (JSONB), correct_answer, explanation, category, difficulty, tags, source_exam, year\n3. simulations: id (PK), title, description, question_ids (array), duration_minutes, difficulty, created_at\n4. user_simulation_results: id (PK), user_id (FK), simulation_id (FK), score, time_taken, completed_at, question_responses (JSONB)\n5. user_question_history: id (PK), user_id (FK), question_id (FK), correct, attempt_count, last_attempted_at, confidence_level\n6. flashcards: id (PK), user_id (FK), question_id (FK), front_content, back_content, created_at, last_reviewed_at, review_count\n7. summaries: id (PK), user_id (FK), content, category, created_at\n8. gamification_stats: id (PK), user_id (FK), points, streak_days, badges (JSONB), level\n\nInclude proper foreign key constraints, indexes on frequently queried columns, and consider using RLS (Row Level Security) policies for data access control.",
+            "details": "1. Criar um documento detalhado listando todas as dependências do package.json\n2. Mapear a estrutura de diretórios e arquivos do projeto atual\n3. Documentar todas as variáveis de ambiente utilizadas (.env)\n4. Identificar e listar todos os endpoints de API consumidos pelo frontend\n5. Documentar as configurações do Vite (vite.config.js)\n6. Mapear integrações específicas com Supabase\n7. Identificar bibliotecas e ferramentas específicas utilizadas no projeto",
             "status": "done",
-            "testStrategy": "Create an ER diagram to visualize relationships. Review schema with team members. Validate that the schema supports all required queries and use cases."
+            "testStrategy": "Validar a documentação com a equipe de desenvolvimento para garantir que todos os aspectos críticos foram capturados."
           },
           {
             "id": 2,
-            "title": "Implement Database Schema in Supabase",
-            "description": "Create all tables, relationships, indexes, and RLS policies in Supabase based on the approved schema design.",
+            "title": "Preparação da estrutura de diretórios no projeto principal",
+            "description": "Criar a estrutura de diretórios adequada no projeto principal seguindo os padrões do monorepo e configurar os arquivos de configuração necessários.",
             "dependencies": [],
-            "details": "Using Supabase dashboard or SQL editor:\n1. Create all tables with proper data types and constraints\n2. Set up foreign key relationships between tables\n3. Create necessary indexes for performance optimization\n4. Configure Row Level Security policies to ensure users can only access their own data\n5. Set up Supabase Auth integration with the users table\n6. Create database functions or triggers if needed (e.g., updating timestamps)\n7. Document the implemented schema with comments\n\nExample SQL for creating the questions table:\n```sql\nCREATE TABLE questions (\n  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n  content TEXT NOT NULL,\n  options JSONB NOT NULL,\n  correct_answer TEXT NOT NULL,\n  explanation TEXT,\n  category TEXT NOT NULL,\n  difficulty TEXT NOT NULL,\n  tags TEXT[] DEFAULT '{}',\n  source_exam TEXT,\n  year INTEGER,\n  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()\n);\n\n-- Add index for category searches\nCREATE INDEX idx_questions_category ON questions(category);\n```",
-            "status": "pending",
-            "testStrategy": "Verify table creation with sample data insertion. Test foreign key constraints. Validate RLS policies with different user contexts."
+            "details": "1. Criar diretório frontend/ na raiz do projeto principal\n2. Configurar package.json com as dependências identificadas na análise\n3. Configurar vite.config.js adaptado ao novo ambiente\n4. Criar arquivo .env.example com as variáveis necessárias\n5. Configurar tsconfig.json ou jsconfig.json conforme necessário\n6. Estabelecer estrutura de pastas seguindo padrões do projeto (components/, hooks/, services/, etc.)\n7. Configurar ESLint e Prettier de acordo com os padrões do projeto principal",
+            "status": "done",
+            "testStrategy": "Verificar se a estrutura criada está de acordo com os padrões do projeto principal e se todas as configurações básicas funcionam corretamente."
           },
           {
             "id": 3,
-            "title": "Create Data Import Script for Hugging Face Dataset",
-            "description": "Develop a script to import the OAB exam questions from the Hugging Face dataset into the Supabase database.",
+            "title": "Migração do código-fonte e assets",
+            "description": "Transferir todos os componentes, hooks, utilitários, assets e outros recursos do frontend externo para a nova estrutura no projeto principal.",
             "dependencies": [],
-            "details": "Create a Node.js or Python script that:\n1. Authenticates with Hugging Face API to access the dataset (russ7/oab_exams_2011_2025_combined)\n2. Fetches the dataset and processes it in batches\n3. Transforms the data to match the Supabase schema structure\n4. Handles data cleaning and normalization (e.g., formatting options as JSONB)\n5. Uses Supabase client library to insert data into the questions table\n6. Includes error handling and logging\n7. Implements retry logic for failed imports\n\nThe script should be configurable to run incrementally and handle dataset updates. Include progress tracking and summary reporting of imported records.",
-            "status": "pending",
-            "testStrategy": "Test with a small subset of data first. Verify data integrity after import. Check for duplicates and malformed entries."
+            "details": "1. Copiar todos os componentes React mantendo a hierarquia de pastas\n2. Migrar hooks personalizados para a pasta hooks/\n3. Transferir serviços e utilitários para suas respectivas pastas\n4. Copiar assets (imagens, ícones, fontes) para a pasta assets/\n5. Migrar arquivos de estilo (CSS, SCSS, styled-components)\n6. Ajustar todos os imports para refletir a nova estrutura de diretórios\n7. Atualizar rotas e configuração de navegação\n8. Verificar e corrigir paths relativos em todo o código",
+            "status": "done",
+            "testStrategy": "Executar o projeto localmente após a migração para identificar problemas de importação ou recursos faltantes. Verificar se todas as páginas carregam corretamente."
           },
           {
             "id": 4,
-            "title": "Implement Data Validation and Quality Checks",
-            "description": "Create validation procedures to ensure data quality and integrity in the imported dataset.",
+            "title": "Atualização das integrações com backend e Supabase",
+            "description": "Ajustar todas as integrações com o backend FastAPI e Supabase para funcionar corretamente no novo ambiente, atualizando endpoints, configurações de autenticação e fluxos de dados.",
             "dependencies": [],
-            "details": "Develop validation procedures that:\n1. Check for missing required fields (content, options, correct_answer)\n2. Validate that options JSONB structure is consistent and correct\n3. Verify correct_answer references a valid option\n4. Check for duplicate questions based on content similarity\n5. Validate category and difficulty values against allowed enums\n6. Create a data quality dashboard or report showing validation results\n7. Implement automated cleanup procedures for common data issues\n\nCreate SQL functions or server-side procedures to run these validations periodically or after imports. Document any data quality issues found and their resolution.",
-            "status": "pending",
-            "testStrategy": "Run validation on sample problematic data. Verify that validation catches known issues. Test automated cleanup procedures."
+            "details": "1. Atualizar URLs base de API no arquivo de configuração de serviços\n2. Ajustar endpoints para corresponder à estrutura do projeto principal\n3. Configurar integração com Supabase no novo ambiente\n4. Atualizar tokens e chaves de API nas variáveis de ambiente\n5. Verificar e ajustar mecanismos de autenticação e autorização\n6. Implementar interceptores de requisição conforme necessário\n7. Atualizar handlers de erro para integração com o backend",
+            "status": "done",
+            "testStrategy": "Testar todos os fluxos de dados entre frontend e backend, verificando se requisições são feitas corretamente e se as respostas são processadas adequadamente. Testar fluxos de autenticação e operações CRUD com Supabase."
           },
           {
             "id": 5,
-            "title": "Create Database Access Layer and API Endpoints",
-            "description": "Implement server-side functions and API endpoints to securely access and manipulate the database.",
-            "dependencies": [
-              4
-            ],
-            "details": "Develop a database access layer that:\n1. Creates Supabase stored procedures for complex queries\n2. Implements server-side functions for data access patterns\n3. Sets up API endpoints for:\n   - User registration and profile management\n   - Question retrieval with filtering and pagination\n   - Simulation creation and results tracking\n   - User performance statistics\n   - Flashcard management\n4. Ensures all endpoints use proper authentication and authorization\n5. Implements efficient query patterns using indexes\n6. Includes rate limiting and security measures\n\nDocument all API endpoints with example requests and responses. Include performance considerations for scaling.",
-            "status": "pending",
-            "testStrategy": "Create automated tests for each API endpoint. Test with various authentication scenarios. Benchmark query performance with realistic data volumes."
+            "title": "Configuração do build e pipeline de CI/CD",
+            "description": "Configurar scripts de build, ambiente de CI/CD e estratégias de deploy para o frontend integrado ao projeto principal.",
+            "dependencies": [],
+            "details": "1. Ajustar scripts no package.json para desenvolvimento e build\n2. Configurar variáveis de ambiente para diferentes ambientes (dev, staging, prod)\n3. Atualizar configurações de build do Vite para otimização\n4. Integrar o frontend ao pipeline de CI/CD existente\n5. Configurar etapas de teste automatizado no pipeline\n6. Implementar estratégia de versionamento compatível com o projeto principal\n7. Configurar processo de deploy para os diferentes ambientes",
+            "status": "done",
+            "testStrategy": "Executar builds completos para verificar se o processo funciona corretamente. Testar o pipeline de CI/CD com uma pequena alteração para garantir que o deploy funciona conforme esperado."
+          },
+          {
+            "id": 6,
+            "title": "Otimização, testes finais e remoção do diretório externo",
+            "description": "Realizar otimizações finais no código, executar testes abrangentes e remover o diretório externo após confirmar que a migração foi bem-sucedida.",
+            "dependencies": [],
+            "details": "1. Implementar lazy loading para componentes e rotas\n2. Configurar code splitting para otimizar o tamanho do bundle\n3. Remover código duplicado ou não utilizado\n4. Executar testes em todos os fluxos principais da aplicação\n5. Verificar performance e tempo de carregamento\n6. Documentar quaisquer mudanças na arquitetura ou uso da aplicação\n7. Após validação completa, remover o diretório externo do frontend\n8. Atualizar documentação do projeto para refletir a nova estrutura",
+            "status": "done",
+            "testStrategy": "Realizar testes de regressão completos em todas as funcionalidades. Verificar métricas de performance como tempo de carregamento, tamanho do bundle e tempo de resposta. Obter validação da equipe antes de remover o diretório externo."
           }
         ]
       },
       {
-        "id": 3,
-        "title": "Implement User Authentication and Authorization",
-        "description": "Develop secure user authentication and role-based access control for web and mobile.",
-        "details": "Integrate Supabase Auth for JWT-based authentication. Implement role-based access (student, admin). Use Next.js Auth for web, React Native Auth for mobile. Store tokens securely.",
-        "testStrategy": "Test login, registration, token validation, and role-based access.",
+        "id": 33,
+        "title": "Integração do Frontend com Backend FastAPI",
+        "description": "Conectar o frontend React+Vite com o backend FastAPI, implementando todas as chamadas de API necessárias e removendo dados mockados para garantir o funcionamento real do sistema.",
+        "details": "1. Análise e mapeamento:\n   - Identificar todos os pontos onde dados mockados estão sendo utilizados no frontend\n   - Mapear endpoints disponíveis no backend FastAPI\n   - Documentar estrutura de dados esperada para cada endpoint\n\n2. Configuração do cliente HTTP:\n   - Implementar cliente Axios configurado com interceptors para:\n     - Tratamento de erros padronizado\n     - Inclusão automática de tokens de autenticação\n     - Refresh de tokens expirados\n   - Configurar variáveis de ambiente para URLs de API em diferentes ambientes\n\n3. Implementação de serviços de API:\n   - Criar módulos de serviço para cada domínio funcional (auth, questões, simulados, etc.)\n   - Implementar funções para cada operação CRUD necessária\n   - Adicionar tipagem TypeScript para payloads e respostas\n   - Implementar cache de dados quando apropriado\n\n4. Integração com componentes React:\n   - Substituir dados mockados por chamadas reais à API\n   - Implementar estados de loading, erro e sucesso\n   - Utilizar React Query para gerenciamento de estado de servidor\n   - Adicionar feedback visual durante operações assíncronas\n\n5. Tratamento de erros e resiliência:\n   - Implementar retry para falhas de rede\n   - Criar componentes de fallback para exibição em caso de erro\n   - Adicionar logging de erros para diagnóstico\n   - Implementar mecanismos de recuperação de estado\n\n6. Otimização de performance:\n   - Implementar estratégias de cache (stale-while-revalidate)\n   - Configurar prefetching para rotas comuns\n   - Otimizar tamanho de payloads\n   - Implementar paginação e carregamento sob demanda",
+        "testStrategy": "1. Testes unitários:\n   - Verificar funcionamento dos serviços de API isoladamente\n   - Testar interceptors e manipuladores de erro\n   - Validar transformações de dados\n\n2. Testes de integração:\n   - Testar fluxo completo de dados do frontend ao backend\n   - Verificar autenticação e autorização\n   - Validar comportamento com diferentes respostas da API\n\n3. Testes de regressão:\n   - Garantir que todas as funcionalidades continuam operando após a remoção dos mocks\n   - Verificar se os dados reais são exibidos corretamente na interface\n\n4. Testes de resiliência:\n   - Simular falhas de rede e latência alta\n   - Verificar comportamento com respostas de erro do servidor\n   - Testar timeout e retry\n\n5. Testes de performance:\n   - Medir tempo de resposta das chamadas de API\n   - Verificar impacto no carregamento inicial da aplicação\n   - Testar comportamento com grande volume de dados\n\n6. Validação manual:\n   - Executar fluxos completos de usuário em ambiente de staging\n   - Verificar consistência visual durante estados de loading\n   - Validar mensagens de erro amigáveis",
+        "status": "pending",
+        "dependencies": [
+          32,
+          17,
+          20,
+          21
+        ],
         "priority": "high",
-        "dependencies": [
-          2
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 4,
-        "title": "Build Responsive UI Framework",
-        "description": "Develop a responsive, modern UI framework for web and mobile using React, Next.js, React Native, and TailwindCSS.",
-        "details": "Use React 18, Next.js 14, React Native 0.73, TailwindCSS 3.4. Implement dark/light mode, responsive layouts, and navigation based on user journeys. Use Zustand or Redux for state management, Framer Motion for animations.",
-        "testStrategy": "Test UI responsiveness, theme switching, and navigation on multiple devices.",
-        "priority": "high",
-        "dependencies": [
-          1
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 5,
-        "title": "Integrate Question Bank from Hugging Face",
-        "description": "Fetch and integrate the FGV question dataset from Hugging Face into the application.",
-        "details": "Use datasets.load_dataset('fgv_oab') from Hugging Face. Store questions in PostgreSQL. Implement API endpoints for fetching, filtering (discipline, theme, year, difficulty, cited articles).",
-        "testStrategy": "Test data import, filtering, and API response accuracy.",
-        "priority": "medium",
-        "dependencies": [
-          2
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 6,
-        "title": "Develop Question Answering and Feedback System",
-        "description": "Implement the question answering interface with immediate feedback and performance tracking.",
-        "details": "Build UI for answering questions. Store user answers and provide immediate feedback with explanations for all options. Track user performance per question. Use Zustand/Redux for state.",
-        "testStrategy": "Test question display, answer submission, feedback, and performance tracking.",
-        "priority": "medium",
-        "dependencies": [
-          4,
-          5
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 7,
-        "title": "Implement Simulation Modes (Prova Real and Custom)",
-        "description": "Develop simulation modes for both timed exams and custom simulations.",
-        "details": "Build UI for simulation selection (timed, custom by theme, number, difficulty). Store simulation results. Use Zustand/Redux for state. Implement timer and submission logic.",
-        "testStrategy": "Test simulation creation, timer, submission, and result storage.",
-        "priority": "medium",
-        "dependencies": [
-          4,
-          5
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 8,
-        "title": "Develop Automated Essay and Processual Document Correction",
-        "description": "Implement AI-powered correction for essays and processual documents with rubrics and feedback.",
-        "details": "Integrate OpenAI GPT-4o or local LLM via Ollama. Define rubrics (structure, language, argumentation). Build API for document submission and feedback. Compare with FGV standards.",
-        "testStrategy": "Test document submission, AI feedback, and rubric application.",
-        "priority": "medium",
-        "dependencies": [
-          2,
-          3
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 9,
-        "title": "Build Adaptive Study Plan Engine",
-        "description": "Develop an AI-driven adaptive study plan based on user performance and FGV statistics.",
-        "details": "Analyze user errors/performance. Use AI to adjust study schedule, focusing on weak areas. Integrate FGV historical data for prioritization. Display plan in UI.",
-        "testStrategy": "Test plan generation, adjustment logic, and UI display.",
-        "priority": "medium",
-        "dependencies": [
-          2,
-          6
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 10,
-        "title": "Implement Interactive Vade Mecum",
-        "description": "Develop an interactive legal reference tool with AI-powered suggestions and contextual search.",
-        "details": "Build UI for legal reference. Use AI to suggest articles, summaries, and jurisprudence. Implement contextual search. Store user queries and suggestions.",
-        "testStrategy": "Test search, suggestion accuracy, and UI responsiveness.",
-        "priority": "medium",
-        "dependencies": [
-          4,
-          8
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 11,
-        "title": "Develop Complementary Resources (Flashcards, Summaries, Videos)",
-        "description": "Implement automatic generation of flashcards, summaries, mind maps, and short videos based on user errors.",
-        "details": "Use AI to generate flashcards, summaries, and mind maps from user errors. Integrate video generation (e.g., Loom API). Display resources in UI.",
-        "testStrategy": "Test resource generation, display, and relevance to user errors.",
-        "priority": "low",
-        "dependencies": [
-          6,
-          8
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 12,
-        "title": "Implement Gamification System",
-        "description": "Develop a gamification system with points, streaks, badges, rankings, and daily challenges.",
-        "details": "Build UI for gamification. Track points, streaks, badges, and rankings. Use AI to suggest daily challenges. Display progress and rewards.",
-        "testStrategy": "Test point tracking, badge assignment, challenge suggestions, and UI updates.",
-        "priority": "low",
-        "dependencies": [
-          2,
-          4
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 13,
-        "title": "Build Community Features with AI Moderation",
-        "description": "Develop a community forum with AI-powered moderation for questions, comments, and study groups.",
-        "details": "Build forum UI. Implement AI moderation for initial content quality. Allow user interactions, groups, and comments. Store forum data in PostgreSQL.",
-        "testStrategy": "Test forum functionality, AI moderation, and user interactions.",
-        "priority": "low",
-        "dependencies": [
-          2,
-          3
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 14,
-        "title": "Implement Monetization and Subscription Logic",
-        "description": "Develop freemium and premium subscription logic with access control and feature gating.",
-        "details": "Integrate payment gateway (e.g., Stripe). Implement subscription tiers (freemium, premium). Gate features based on subscription. Store subscription status in PostgreSQL.",
-        "testStrategy": "Test subscription flow, feature access, and payment processing.",
-        "priority": "medium",
-        "dependencies": [
-          2,
-          3
-        ],
-        "status": "pending",
-        "subtasks": []
-      },
-      {
-        "id": 15,
-        "title": "Develop Analytics Dashboard and Success Metrics",
-        "description": "Build an analytics dashboard to track user engagement, study time, simulation completion, and NPS.",
-        "details": "Use ECharts/Recharts for interactive dashboards. Track DAU/MAU, study time, simulation completion, NPS, retention. Display metrics in UI.",
-        "testStrategy": "Test data collection, dashboard display, and metric accuracy.",
-        "priority": "medium",
-        "dependencies": [
-          2,
-          4
-        ],
-        "status": "pending",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Análise e mapeamento de endpoints e dados mockados",
+            "description": "Identificar todos os pontos onde dados mockados estão sendo utilizados no frontend e mapear os endpoints disponíveis no backend FastAPI, criando uma documentação clara da estrutura de dados esperada para cada endpoint.",
+            "dependencies": [],
+            "details": "1. Criar uma planilha ou documento listando todos os componentes React que usam dados mockados\n2. Para cada componente, documentar:\n   - Tipo de dados mockados utilizados\n   - Estrutura dos dados (campos, tipos)\n   - Operações realizadas (leitura, criação, atualização, exclusão)\n3. Analisar a documentação do FastAPI (Swagger/OpenAPI) para identificar endpoints disponíveis\n4. Mapear cada componente com dados mockados para o endpoint correspondente\n5. Documentar discrepâncias entre estrutura de dados mockados e respostas da API\n6. Identificar endpoints faltantes que precisarão ser desenvolvidos no backend",
+            "status": "pending",
+            "testStrategy": "Validar a documentação criada com a equipe de backend para garantir que todos os endpoints necessários estão disponíveis e funcionando conforme esperado."
+          },
+          {
+            "id": 2,
+            "title": "Configuração do cliente Axios com interceptors",
+            "description": "Implementar um cliente HTTP utilizando Axios com interceptors para tratamento padronizado de erros, autenticação e refresh de tokens, além de configurar variáveis de ambiente para diferentes ambientes de desenvolvimento.",
+            "dependencies": [],
+            "details": "1. Criar arquivo de configuração do Axios em `src/services/api.ts`\n2. Configurar baseURL utilizando variáveis de ambiente (.env)\n3. Implementar interceptor de requisição para incluir token de autenticação do localStorage\n4. Implementar interceptor de resposta para:\n   - Tratar erros HTTP (4xx, 5xx)\n   - Detectar token expirado (status 401)\n   - Implementar refresh automático de token expirado\n   - Retentar requisição original após refresh\n5. Criar tipos TypeScript para respostas de erro padronizadas\n6. Implementar mecanismo de fila para requisições durante refresh de token\n7. Configurar timeout e retry para falhas de rede",
+            "status": "pending",
+            "testStrategy": "Criar testes unitários para verificar o comportamento dos interceptors em diferentes cenários (token válido, token expirado, erro de servidor, etc)."
+          },
+          {
+            "id": 3,
+            "title": "Implementação de serviços de API por domínio",
+            "description": "Criar módulos de serviço para cada domínio funcional da aplicação (autenticação, questões, simulados, etc.), implementando funções tipadas para cada operação CRUD necessária.",
+            "dependencies": [],
+            "details": "1. Criar estrutura de pastas para serviços por domínio em `src/services/`\n2. Para cada domínio identificado na análise, criar um arquivo de serviço (ex: `authService.ts`, `questionsService.ts`, `examsService.ts`)\n3. Em cada serviço, implementar:\n   - Interfaces TypeScript para payloads de requisição\n   - Interfaces para respostas da API\n   - Funções para cada operação CRUD necessária\n4. Utilizar o cliente Axios configurado anteriormente\n5. Implementar tratamento de erros específicos de cada domínio\n6. Adicionar comentários JSDoc para documentar parâmetros e retornos\n7. Criar barrel files (index.ts) para exportar todos os serviços de forma organizada",
+            "status": "pending",
+            "testStrategy": "Implementar testes de integração para cada serviço, utilizando MSW (Mock Service Worker) para simular as respostas da API."
+          },
+          {
+            "id": 4,
+            "title": "Configuração do React Query para gerenciamento de estado",
+            "description": "Configurar o React Query para gerenciar o estado do servidor, implementando hooks personalizados para cada operação de API, com suporte a cache, invalidação e refetch.",
+            "dependencies": [],
+            "details": "1. Instalar React Query: `npm install @tanstack/react-query`\n2. Configurar o QueryClient com opções padrão para retry, staleTime e cacheTime\n3. Adicionar QueryClientProvider no componente raiz da aplicação\n4. Criar pasta `src/hooks` para hooks personalizados de query\n5. Para cada serviço de API, criar hooks correspondentes:\n   - useQuery para operações de leitura\n   - useMutation para operações de escrita (create, update, delete)\n6. Implementar lógica de invalidação de cache após mutações\n7. Configurar React Query DevTools para ambiente de desenvolvimento\n8. Implementar estratégias de prefetching para dados frequentemente acessados",
+            "status": "pending",
+            "testStrategy": "Criar testes para verificar o comportamento de cache e invalidação dos hooks de query, garantindo que os dados são atualizados corretamente após mutações."
+          },
+          {
+            "id": 5,
+            "title": "Substituição de dados mockados nos componentes",
+            "description": "Refatorar os componentes React para substituir todos os dados mockados por chamadas reais à API, implementando estados de loading, erro e sucesso com feedback visual apropriado.",
+            "dependencies": [],
+            "details": "1. Seguir a documentação criada na análise inicial para identificar componentes a serem refatorados\n2. Para cada componente:\n   - Substituir dados mockados pelos hooks de query/mutation criados\n   - Implementar renderização condicional baseada em estados (isLoading, isError, data)\n   - Adicionar componentes de feedback (Skeleton, ErrorMessage, etc)\n3. Criar componentes reutilizáveis para estados de loading e erro\n4. Implementar toast notifications para feedback de operações assíncronas\n5. Adicionar tratamento para casos de borda (dados vazios, respostas parciais)\n6. Garantir que a UI não quebre durante transições de estado\n7. Implementar retry manual para erros recuperáveis",
+            "status": "pending",
+            "testStrategy": "Criar testes de componente utilizando React Testing Library para verificar o comportamento dos componentes em diferentes estados (loading, erro, sucesso) e garantir que a UI se comporta conforme esperado."
+          },
+          {
+            "id": 6,
+            "title": "Implementação de paginação e carregamento sob demanda",
+            "description": "Adicionar suporte a paginação e carregamento sob demanda (infinite scroll) para listas e coleções de dados, otimizando a performance e a experiência do usuário.",
+            "dependencies": [],
+            "details": "1. Identificar componentes que exibem listas ou coleções de dados\n2. Para cada componente identificado, implementar:\n   - Parâmetros de paginação nas chamadas de API (page, limit)\n   - Hooks de useInfiniteQuery para carregamento sob demanda\n   - Componente de IntersectionObserver para detectar quando usuário chega ao final da lista\n3. Adicionar indicadores visuais de carregamento de mais itens\n4. Implementar virtualização para listas muito grandes (react-window ou similar)\n5. Otimizar a renderização de listas com React.memo e keys estáveis\n6. Adicionar suporte a filtros e ordenação mantendo estado de paginação\n7. Implementar prefetching da próxima página quando usuário se aproxima do final da lista atual",
+            "status": "pending",
+            "testStrategy": "Testar o comportamento da paginação e infinite scroll com diferentes tamanhos de dados, verificando se o carregamento sob demanda funciona corretamente e se a performance é mantida mesmo com grandes volumes de dados."
+          },
+          {
+            "id": 7,
+            "title": "Tratamento de erros e implementação de resiliência",
+            "description": "Implementar estratégias avançadas de tratamento de erros e resiliência, incluindo retry automático, fallbacks, logging de erros e mecanismos de recuperação de estado.",
+            "dependencies": [],
+            "details": "1. Criar um sistema centralizado de tratamento de erros\n2. Implementar componentes de fallback para diferentes níveis:\n   - Componente individual (Error Boundary por componente)\n   - Página inteira (Error Boundary por rota)\n   - Aplicação (Error Boundary global)\n3. Configurar logging de erros para serviço externo (Sentry ou similar)\n4. Implementar estratégias de retry com backoff exponencial para falhas de rede\n5. Criar mecanismos de recuperação de estado após erros:\n   - Salvar formulários não enviados no localStorage\n   - Restaurar estado de navegação após refresh\n6. Adicionar feedback contextual para diferentes tipos de erro\n7. Implementar modo offline para funcionalidades críticas usando Service Workers",
+            "status": "pending",
+            "testStrategy": "Simular diferentes cenários de falha (rede instável, servidor indisponível, respostas malformadas) e verificar se os mecanismos de resiliência funcionam corretamente, garantindo uma boa experiência do usuário mesmo em condições adversas."
+          }
+        ]
       }
     ],
     "metadata": {
       "created": "2025-07-09T23:46:03.268Z",
-      "updated": "2025-07-10T04:15:25.596Z",
+      "updated": "2025-07-10T19:04:14.843Z",
       "description": "Tasks for master context"
     }
   }

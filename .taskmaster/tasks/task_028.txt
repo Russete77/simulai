@@ -1,0 +1,32 @@
+# Task ID: 28
+# Title: Implementação do Sistema de Monetização
+# Status: pending
+# Dependencies: 17, 20, 21, 22
+# Priority: medium
+# Description: Desenvolver sistema de monetização com modelo freemium, incluindo planos premium com diferentes níveis de acesso e processamento de pagamentos.
+# Details:
+1. Implementar modelo freemium com:
+   - Acesso limitado a questões (500 questões)
+   - Simulados básicos (1 por semana)
+   - Recursos complementares limitados
+2. Criar planos premium (R$50-200/mês) com:
+   - Correção ilimitada de discursivas
+   - Plano de estudos dinâmico
+   - Simulados ilimitados
+   - Acesso completo à comunidade
+   - Estatísticas avançadas
+3. Integrar gateway de pagamento (Stripe/MercadoPago)
+4. Implementar sistema de assinaturas recorrentes
+5. Desenvolver página de comparação de planos
+6. Criar sistema de cupons e promoções
+7. Implementar período de teste gratuito
+8. Desenvolver sistema de referral/indicação
+9. Criar dashboard administrativo para métricas financeiras
+10. Implementar notificações de cobrança e renovação
+
+# Test Strategy:
+1. Testar fluxo completo de assinatura
+2. Validar restrições de acesso por tipo de plano
+3. Verificar processamento de pagamentos
+4. Testar cancelamentos e reembolsos
+5. Validar funcionamento de cupons e promoções

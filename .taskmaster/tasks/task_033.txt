@@ -1,0 +1,72 @@
+# Task ID: 33
+# Title: Integração do Frontend com Backend FastAPI
+# Status: pending
+# Dependencies: 32, 17, 20, 21
+# Priority: high
+# Description: Conectar o frontend React+Vite com o backend FastAPI, implementando todas as chamadas de API necessárias e removendo dados mockados para garantir o funcionamento real do sistema.
+# Details:
+1. Análise e mapeamento:
+   - Identificar todos os pontos onde dados mockados estão sendo utilizados no frontend
+   - Mapear endpoints disponíveis no backend FastAPI
+   - Documentar estrutura de dados esperada para cada endpoint
+
+2. Configuração do cliente HTTP:
+   - Implementar cliente Axios configurado com interceptors para:
+     - Tratamento de erros padronizado
+     - Inclusão automática de tokens de autenticação
+     - Refresh de tokens expirados
+   - Configurar variáveis de ambiente para URLs de API em diferentes ambientes
+
+3. Implementação de serviços de API:
+   - Criar módulos de serviço para cada domínio funcional (auth, questões, simulados, etc.)
+   - Implementar funções para cada operação CRUD necessária
+   - Adicionar tipagem TypeScript para payloads e respostas
+   - Implementar cache de dados quando apropriado
+
+4. Integração com componentes React:
+   - Substituir dados mockados por chamadas reais à API
+   - Implementar estados de loading, erro e sucesso
+   - Utilizar React Query para gerenciamento de estado de servidor
+   - Adicionar feedback visual durante operações assíncronas
+
+5. Tratamento de erros e resiliência:
+   - Implementar retry para falhas de rede
+   - Criar componentes de fallback para exibição em caso de erro
+   - Adicionar logging de erros para diagnóstico
+   - Implementar mecanismos de recuperação de estado
+
+6. Otimização de performance:
+   - Implementar estratégias de cache (stale-while-revalidate)
+   - Configurar prefetching para rotas comuns
+   - Otimizar tamanho de payloads
+   - Implementar paginação e carregamento sob demanda
+
+# Test Strategy:
+1. Testes unitários:
+   - Verificar funcionamento dos serviços de API isoladamente
+   - Testar interceptors e manipuladores de erro
+   - Validar transformações de dados
+
+2. Testes de integração:
+   - Testar fluxo completo de dados do frontend ao backend
+   - Verificar autenticação e autorização
+   - Validar comportamento com diferentes respostas da API
+
+3. Testes de regressão:
+   - Garantir que todas as funcionalidades continuam operando após a remoção dos mocks
+   - Verificar se os dados reais são exibidos corretamente na interface
+
+4. Testes de resiliência:
+   - Simular falhas de rede e latência alta
+   - Verificar comportamento com respostas de erro do servidor
+   - Testar timeout e retry
+
+5. Testes de performance:
+   - Medir tempo de resposta das chamadas de API
+   - Verificar impacto no carregamento inicial da aplicação
+   - Testar comportamento com grande volume de dados
+
+6. Validação manual:
+   - Executar fluxos completos de usuário em ambiente de staging
+   - Verificar consistência visual durante estados de loading
+   - Validar mensagens de erro amigáveis

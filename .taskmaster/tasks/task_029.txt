@@ -1,0 +1,29 @@
+# Task ID: 29
+# Title: Desenvolvimento do Dashboard de Métricas e Analytics
+# Status: pending
+# Dependencies: 28
+# Priority: low
+# Description: Implementar dashboard com métricas de sucesso, incluindo taxa de aprovação estimada, usuários ativos, tempo de estudo, taxa de conclusão de simulados e NPS.
+# Details:
+1. Desenvolver dashboard administrativo com:
+   - Taxa de aprovação estimada dos usuários
+   - Métricas de usuários ativos (DAU/MAU)
+   - Tempo médio de estudo diário
+   - Taxa de simulado completo vs. iniciado
+   - NPS e taxa de retenção (30, 60, 90 dias)
+2. Implementar visualizações interativas com ECharts/Recharts
+3. Criar sistema de coleta de dados de uso (analytics)
+4. Desenvolver relatórios automáticos semanais/mensais
+5. Implementar alertas para métricas críticas
+6. Criar segmentação de usuários por perfil
+7. Desenvolver análise de funil de conversão
+8. Implementar heatmaps de uso da plataforma
+9. Criar sistema de feedback e pesquisas (NPS)
+10. Desenvolver visualização de tendências ao longo do tempo
+
+# Test Strategy:
+1. Validar precisão dos dados coletados
+2. Testar performance com grande volume de dados
+3. Verificar geração correta de relatórios
+4. Testar sistema de alertas
+5. Validar cálculos de métricas compostas

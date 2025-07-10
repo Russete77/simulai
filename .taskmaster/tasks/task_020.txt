@@ -1,0 +1,30 @@
+# Task ID: 20
+# Title: Desenvolvimento do Banco de Questões Inteligente (1ª Fase)
+# Status: pending
+# Dependencies: 17, 19
+# Priority: high
+# Description: Implementar o módulo de banco de questões com filtros avançados, feedback imediato e histórico de desempenho conforme especificado no PRD.
+# Details:
+1. Desenvolver interface de usuário para navegação e filtragem de questões usando React e TailwindCSS
+2. Implementar os seguintes filtros:
+   - Disciplina (dropdown com múltipla seleção)
+   - Tema (busca com autocomplete)
+   - Ano (slider de intervalo)
+   - Banca (checkbox)
+   - Dificuldade (3-5 níveis)
+   - Artigos citados (busca com tags)
+3. Criar componente de exibição de questão com alternativas
+4. Implementar sistema de feedback imediato após resposta
+5. Desenvolver explicações detalhadas para cada alternativa usando GPT-4o
+6. Criar visualização de histórico de desempenho por questão
+7. Implementar sistema de favoritos e marcação para revisão
+8. Desenvolver algoritmo de recomendação de próximas questões
+9. Criar modo de estudo espaçado baseado na curva de esquecimento
+10. Implementar sincronização offline para app móvel
+
+# Test Strategy:
+1. Testes unitários para componentes de UI
+2. Testes de integração para verificar funcionamento dos filtros
+3. Testes de usabilidade com usuários reais
+4. Validar performance com grande volume de questões
+5. Testar sincronização entre dispositivos

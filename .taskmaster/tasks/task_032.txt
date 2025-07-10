@@ -1,0 +1,66 @@
+# Task ID: 32
+# Title: Migração do Frontend React+Vite para o Projeto Principal
+# Status: pending
+# Dependencies: 31
+# Priority: high
+# Description: Migrar o novo frontend React+Vite do diretório externo para o projeto principal, ajustando configurações de build, deploy e integração com o backend FastAPI e banco Supabase.
+# Details:
+1. Análise da estrutura atual:
+   - Mapear dependências e configurações do frontend React+Vite no diretório externo
+   - Identificar pontos de integração com o backend FastAPI
+   - Documentar variáveis de ambiente e configurações específicas
+
+2. Preparação do ambiente no projeto principal:
+   - Criar estrutura de diretórios adequada seguindo padrões do monorepo
+   - Configurar package.json e dependências necessárias
+   - Ajustar configurações do Vite para o novo ambiente
+
+3. Migração do código:
+   - Transferir componentes, hooks, e utilitários mantendo a estrutura lógica
+   - Ajustar imports e paths relativos
+   - Migrar assets e recursos estáticos
+   - Atualizar rotas e navegação conforme necessário
+
+4. Configuração do build e deploy:
+   - Ajustar scripts de build para o novo ambiente
+   - Configurar CI/CD para o frontend integrado
+   - Implementar estratégia de versionamento compatível com o projeto principal
+   - Configurar ambientes de desenvolvimento, staging e produção
+
+5. Integração com backend:
+   - Atualizar endpoints e URLs de API
+   - Ajustar autenticação e autorização para funcionar no novo ambiente
+   - Verificar integração com Supabase
+   - Testar fluxos de dados entre frontend e backend
+
+6. Otimização e limpeza:
+   - Remover código duplicado ou desnecessário
+   - Implementar lazy loading e code splitting
+   - Otimizar bundle size
+   - Remover diretório externo após migração bem-sucedida
+
+# Test Strategy:
+1. Testes de integração:
+   - Verificar todas as chamadas de API entre frontend e backend
+   - Testar fluxos de autenticação e autorização
+   - Validar integração com Supabase
+
+2. Testes de build e deploy:
+   - Verificar processo de build em ambiente de desenvolvimento
+   - Testar pipeline de CI/CD completo
+   - Validar deploy em ambientes de staging e produção
+
+3. Testes de regressão:
+   - Executar testes automatizados existentes no novo ambiente
+   - Realizar testes manuais de funcionalidades críticas
+   - Comparar comportamento com a versão anterior
+
+4. Testes de performance:
+   - Medir tempos de carregamento antes e depois da migração
+   - Verificar tamanho do bundle e tempo de carregamento inicial
+   - Testar performance em dispositivos móveis
+
+5. Validação de configuração:
+   - Verificar variáveis de ambiente em todos os ambientes
+   - Testar configurações específicas de cada ambiente
+   - Validar funcionamento de features toggles

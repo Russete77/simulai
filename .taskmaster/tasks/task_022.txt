@@ -1,0 +1,28 @@
+# Task ID: 22
+# Title: Desenvolvimento do Sistema de Correção Automatizada por IA (2ª Fase)
+# Status: pending
+# Dependencies: 21
+# Priority: high
+# Description: Implementar sistema de correção automatizada por IA para peças processuais e questões discursivas da 2ª fase da OAB.
+# Details:
+1. Desenvolver prompt engineering avançado para GPT-4o ou modelo local via Ollama
+2. Implementar rubricas de avaliação baseadas nos critérios da FGV:
+   - Estrutura formal da peça (20%)
+   - Linguagem jurídica adequada (20%)
+   - Fundamentação legal correta (30%)
+   - Argumentação lógica (30%)
+3. Criar sistema de feedback detalhado com sugestões de melhoria
+4. Implementar comparação com modelos de resposta da FGV
+5. Desenvolver visualização de correção com marcações no texto
+6. Criar sistema de revisão humana para calibração do modelo
+7. Implementar cache de correções para otimização
+8. Desenvolver métricas de confiabilidade da correção
+9. Criar sistema de aprendizado contínuo com feedback dos usuários
+10. Implementar detecção de plágio e uso indevido de IA
+
+# Test Strategy:
+1. Comparar correções automatizadas com correções humanas
+2. Testar com diferentes estilos de escrita e qualidade
+3. Validar consistência das correções
+4. Testar com peças processuais reais de exames anteriores
+5. Avaliar tempo de resposta e otimizações

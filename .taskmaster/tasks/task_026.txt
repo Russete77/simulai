@@ -1,0 +1,31 @@
+# Task ID: 26
+# Title: Desenvolvimento do Sistema de Gamificação
+# Status: pending
+# Dependencies: 20, 21, 23
+# Priority: low
+# Description: Implementar sistema de gamificação com pontos, streaks, badges, rankings e desafios para aumentar o engajamento dos usuários.
+# Details:
+1. Desenvolver sistema de pontuação baseado em:
+   - Questões respondidas
+   - Tempo de estudo
+   - Simulados completados
+   - Metas atingidas
+2. Implementar streaks de estudo diário
+3. Criar sistema de badges para conquistas:
+   - Domínio de disciplinas
+   - Consistência de estudo
+   - Superação de desafios
+4. Desenvolver rankings semanais e mensais
+5. Criar sistema de desafios diários sugeridos por IA
+6. Implementar recompensas visuais e celebrações de progresso
+7. Desenvolver estatísticas detalhadas de progresso
+8. Criar sistema de níveis de experiência
+9. Implementar notificações de conquistas
+10. Desenvolver integração com redes sociais para compartilhamento
+
+# Test Strategy:
+1. Testar cálculo correto de pontos e streaks
+2. Validar desbloqueio de badges conforme critérios
+3. Verificar atualização de rankings
+4. Testar geração de desafios personalizados
+5. Validar experiência de usuário das celebrações

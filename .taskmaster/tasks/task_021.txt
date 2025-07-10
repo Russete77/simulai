@@ -1,0 +1,29 @@
+# Task ID: 21
+# Title: Implementação do Sistema de Simulados
+# Status: pending
+# Dependencies: 20
+# Priority: medium
+# Description: Desenvolver o módulo de simulados com modos Prova Real e Personalizado para 1ª fase, e simulados discursivos para 2ª fase.
+# Details:
+1. Criar interface para configuração de simulados:
+   - Modo Prova Real (80 questões, 5 horas, sem correção instantânea)
+   - Modo Personalizado (seleção de temas, número de questões, dificuldade)
+2. Implementar temporizador com salvamento automático de progresso
+3. Desenvolver algoritmo de seleção de questões baseado em:
+   - Distribuição por disciplinas conforme edital atual da FGV
+   - Balanceamento de dificuldade
+   - Histórico de desempenho do usuário
+4. Criar interface para simulados da 2ª fase com editor de texto avançado
+5. Implementar templates para diferentes peças processuais
+6. Desenvolver sistema de salvamento automático e exportação em PDF
+7. Criar dashboard de resultados e análise de desempenho
+8. Implementar comparação com médias históricas da FGV
+9. Desenvolver sistema de recomendações pós-simulado
+10. Criar funcionalidade de revisão de erros
+
+# Test Strategy:
+1. Testes de carga para simulados completos
+2. Validar salvamento automático em diferentes cenários
+3. Testar algoritmo de seleção de questões
+4. Verificar precisão do temporizador
+5. Testar exportação de resultados e relatórios

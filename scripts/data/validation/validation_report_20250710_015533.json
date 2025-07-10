@@ -1,0 +1,168 @@
+{
+  "timestamp": "2025-07-10T01:55:33.643109",
+  "supabase_url": "https://rctoeldueklgtotkaypg.supabase.co",
+  "validation_results": {
+    "schema": {
+      "tables_exist": {
+        "profiles": true,
+        "user_stats": true,
+        "questions": true,
+        "question_stats": true,
+        "simulations": true,
+        "user_simulations": true,
+        "user_question_history": true,
+        "flashcards": true,
+        "study_notes": true,
+        "achievements": true,
+        "user_achievements": true,
+        "study_streaks": true
+      },
+      "missing_tables": [],
+      "table_counts": {
+        "profiles": 0,
+        "user_stats": 0,
+        "questions": 4306,
+        "question_stats": 1000,
+        "simulations": 0,
+        "user_simulations": 0,
+        "user_question_history": 0,
+        "flashcards": 0,
+        "study_notes": 0,
+        "achievements": 10,
+        "user_achievements": 0,
+        "study_streaks": 0
+      },
+      "indexes_exist": true
+    },
+    "questions": {
+      "total_questions": 1000,
+      "categories": {
+        "Geral": 1000
+      },
+      "years": {
+        "2010": 151,
+        "2011": 197,
+        "2012": 315,
+        "2014": 137,
+        "2013": 196,
+        "2015": 1,
+        "2016": 2,
+        "2018": 1
+      },
+      "data_quality": {
+        "with_options": 1000,
+        "with_explanation": 0,
+        "with_category": 1000,
+        "with_year": 1000,
+        "active_questions": 1000
+      },
+      "sample_questions": [
+        {
+          "id": "1e686917-8f07-4a45-a2fe-d43aa70d322f",
+          "external_id": "hf_oab_exams_2011_2025_combined_1",
+          "question_text": "2",
+          "options": [
+            {
+              "key": "label",
+              "text": "['A' 'B' 'C' 'D']"
+            },
+            {
+              "key": "text",
+              "text": "['Ainda que se reabilite criminalmente, Mário não poderá mais se inscrever na OAB, visto que não preenche o requisito de idoneidade moral.'\n 'Serão considerados inexistentes os atos privativos de advogado praticados por Mário após a exclusão, dado o impedimento do exercício do mandato em razão da sanção disciplinar aplicada.'\n 'A penalidade de exclusão somente poderia ter sido aplicada caso Mário tivesse recebido três suspensões.'\n 'Supondo-se que o processo disciplinar tenha ficado paralisado por mais de três anos, aguardando o julgamento, a pretensão à punibilidade de Mário estaria prescrita e ele não poderia ser excluído da Ordem.']"
+            }
+          ],
+          "correct_answer": "3",
+          "explanation": null,
+          "category": "Geral",
+          "subcategory": null,
+          "difficulty_level": "medium",
+          "exam_year": 2010,
+          "exam_edition": null,
+          "source": "FGV",
+          "tags": [],
+          "is_active": true,
+          "created_at": "2025-07-10T04:50:52.937248+00:00",
+          "updated_at": "2025-07-10T04:50:52.937323+00:00"
+        },
+        {
+          "id": "956f5961-5e25-498b-8858-61696d19bc62",
+          "external_id": "hf_oab_exams_2011_2025_combined_4",
+          "question_text": "5",
+          "options": [
+            {
+              "key": "label",
+              "text": "['A' 'B' 'C' 'D']"
+            },
+            {
+              "key": "text",
+              "text": "['Considere que uma advogada inscrita na OAB receba, adiantadamente, honorários contratuais de seu cliente, mas não preste o serviço jurídico contratado. Nessa situação hipotética, a advogada tem direito à quantia recebida, visto que sua conduta não configura locupletamento à custa do cliente.'\n 'Cometerá infração disciplinar o advogado que receber dinheiro de cliente para pagar parcelas de financiamento e proceder, sem autorização, à compensação com honorários que ele alegue devidos.'\n 'Considere que um advogado, após ser notificado pelo juiz para devolver os autos que retenha além do prazo, não atenda ao mandado, tampouco ao de busca e apreensão. Nessa situação hipotética, embora não incida em nenhuma infração disciplinar perante a OAB, deverá o advogado arcar com o ônus processual de sua conduta.'\n 'O advogado que esteja em débito com plurais contribuições e multas perante a OAB e que, mesmo regularmente intimado, mantenha-se inadimplente, deverá responder por infração disciplinar e pelo crime de charlatanismo.']"
+            }
+          ],
+          "correct_answer": "1",
+          "explanation": null,
+          "category": "Geral",
+          "subcategory": null,
+          "difficulty_level": "medium",
+          "exam_year": 2010,
+          "exam_edition": null,
+          "source": "FGV",
+          "tags": [],
+          "is_active": true,
+          "created_at": "2025-07-10T04:50:52.938119+00:00",
+          "updated_at": "2025-07-10T04:50:52.938125+00:00"
+        },
+        {
+          "id": "a8b492bb-31d3-49e8-8151-accb190d782d",
+          "external_id": "hf_oab_exams_2011_2025_combined_6",
+          "question_text": "7",
+          "options": [
+            {
+              "key": "label",
+              "text": "['A' 'B' 'C' 'D']"
+            },
+            {
+              "key": "text",
+              "text": "['A ação de cobrança de honorários prescreve em cinco anos, sendo o prazo contado, necessariamente, a partir do vencimento do contrato, cuja juntada é imprescindível.'\n 'O prazo prescricional da ação de cobrança de honorários depende do tipo de trabalho profissional contratado e é contado a partir do trânsito em julgado da decisão que os fixar.'\n 'O advogado substabelecido com reserva de poderes pode cobrar honorários proporcionais ao trabalho realizado, sem a intervenção daquele que lhe conferiu o substabelecimento.'\n 'A decisão judicial que arbitrar honorários e o contrato escrito que o estipular são títulos executivos e constituem crédito privilegiado na falência e na liquidação extrajudicial, entre outras situações.']"
+            }
+          ],
+          "correct_answer": "3",
+          "explanation": null,
+          "category": "Geral",
+          "subcategory": null,
+          "difficulty_level": "medium",
+          "exam_year": 2010,
+          "exam_edition": null,
+          "source": "FGV",
+          "tags": [],
+          "is_active": true,
+          "created_at": "2025-07-10T04:50:52.938614+00:00",
+          "updated_at": "2025-07-10T04:50:52.938619+00:00"
+        }
+      ]
+    },
+    "relationships": {
+      "question_stats_linked": 235,
+      "orphaned_stats": 765,
+      "valid_relationships": false
+    },
+    "rls": {
+      "policies_exist": true,
+      "tables_with_rls": [],
+      "policy_count": 0
+    },
+    "performance": {
+      "query_times": {
+        "get_categories": 0.142575,
+        "recent_questions": 0.146786
+      },
+      "slow_queries": []
+    }
+  },
+  "summary": {
+    "connection_ok": true,
+    "schema_valid": true,
+    "data_quality_ok": true,
+    "relationships_ok": false,
+    "performance_ok": true
+  }
+}

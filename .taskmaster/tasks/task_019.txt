@@ -1,0 +1,28 @@
+# Task ID: 19
+# Title: Importação e Processamento do Dataset de Questões
+# Status: pending
+# Dependencies: 18
+# Priority: high
+# Description: Importar e processar o dataset de mais de 5.000 questões da FGV do Hugging Face, estruturando-o para uso eficiente no sistema.
+# Details:
+1. Desenvolver script Python para importação do dataset do Hugging Face usando datasets.load_dataset()
+2. Processar e normalizar dados:
+   - Classificar questões por disciplina, tema, ano, banca
+   - Extrair artigos citados usando regex e NLP
+   - Calcular nível de dificuldade baseado em estatísticas históricas
+   - Gerar embeddings para cada questão usando sentence-transformers
+3. Implementar pipeline de ETL para atualização periódica
+4. Criar índices de busca vetorial no PostgreSQL usando pgvector
+5. Desenvolver sistema de versionamento para o dataset
+6. Implementar validação e limpeza de dados
+7. Criar metadados adicionais como palavras-chave e tópicos relacionados
+8. Desenvolver API para acesso eficiente às questões
+9. Implementar cache para questões frequentemente acessadas
+10. Documentar estrutura e formato dos dados processados
+
+# Test Strategy:
+1. Validar integridade dos dados importados
+2. Testar performance de consultas por diferentes filtros
+3. Verificar precisão dos embeddings e buscas semânticas
+4. Testar pipeline de atualização com novos dados
+5. Validar classificação automática de questões

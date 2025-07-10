@@ -1,0 +1,32 @@
+# Task ID: 18
+# Title: Modelagem e Implementação do Banco de Dados
+# Status: pending
+# Dependencies: 16
+# Priority: high
+# Description: Projetar e implementar o esquema de banco de dados PostgreSQL via Supabase para armazenar questões, usuários, histórico de desempenho e demais entidades do sistema.
+# Details:
+1. Modelar esquema relacional com as seguintes tabelas principais:
+   - users (perfil, preferências, plano)
+   - questions (questões da 1ª fase com metadados)
+   - essays (questões discursivas da 2ª fase)
+   - attempts (tentativas de resposta)
+   - performance_metrics (métricas de desempenho)
+   - study_plans (planos de estudo)
+   - flashcards (cartões de estudo)
+   - legal_references (artigos, súmulas, jurisprudência)
+2. Implementar migrations usando Supabase CLI
+3. Configurar índices para consultas frequentes
+4. Implementar funções RPC no PostgreSQL para operações complexas
+5. Configurar backup automático
+6. Implementar políticas de RLS (Row Level Security)
+7. Criar views para relatórios e dashboards
+8. Configurar triggers para atualização automática de estatísticas
+9. Implementar particionamento para tabelas grandes (questions, attempts)
+10. Documentar o esquema com diagramas ER
+
+# Test Strategy:
+1. Testes de integridade referencial
+2. Testes de performance para consultas frequentes
+3. Validação de políticas de segurança
+4. Testes de carga para simular uso intensivo
+5. Verificar funcionamento das migrations e rollbacks
