@@ -76,8 +76,56 @@
         "dependencies": [
           1
         ],
-        "status": "pending",
-        "subtasks": []
+        "status": "in-progress",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design Database Schema and Entity Relationships",
+            "description": "Create a comprehensive database schema design for all required tables with proper relationships, constraints, and indexes.",
+            "dependencies": [],
+            "details": "Design the PostgreSQL schema with the following tables and relationships:\n1. users: id (PK), email, created_at, last_login, profile_data (JSONB)\n2. questions: id (PK), content, options (JSONB), correct_answer, explanation, category, difficulty, tags, source_exam, year\n3. simulations: id (PK), title, description, question_ids (array), duration_minutes, difficulty, created_at\n4. user_simulation_results: id (PK), user_id (FK), simulation_id (FK), score, time_taken, completed_at, question_responses (JSONB)\n5. user_question_history: id (PK), user_id (FK), question_id (FK), correct, attempt_count, last_attempted_at, confidence_level\n6. flashcards: id (PK), user_id (FK), question_id (FK), front_content, back_content, created_at, last_reviewed_at, review_count\n7. summaries: id (PK), user_id (FK), content, category, created_at\n8. gamification_stats: id (PK), user_id (FK), points, streak_days, badges (JSONB), level\n\nInclude proper foreign key constraints, indexes on frequently queried columns, and consider using RLS (Row Level Security) policies for data access control.",
+            "status": "done",
+            "testStrategy": "Create an ER diagram to visualize relationships. Review schema with team members. Validate that the schema supports all required queries and use cases."
+          },
+          {
+            "id": 2,
+            "title": "Implement Database Schema in Supabase",
+            "description": "Create all tables, relationships, indexes, and RLS policies in Supabase based on the approved schema design.",
+            "dependencies": [],
+            "details": "Using Supabase dashboard or SQL editor:\n1. Create all tables with proper data types and constraints\n2. Set up foreign key relationships between tables\n3. Create necessary indexes for performance optimization\n4. Configure Row Level Security policies to ensure users can only access their own data\n5. Set up Supabase Auth integration with the users table\n6. Create database functions or triggers if needed (e.g., updating timestamps)\n7. Document the implemented schema with comments\n\nExample SQL for creating the questions table:\n```sql\nCREATE TABLE questions (\n  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),\n  content TEXT NOT NULL,\n  options JSONB NOT NULL,\n  correct_answer TEXT NOT NULL,\n  explanation TEXT,\n  category TEXT NOT NULL,\n  difficulty TEXT NOT NULL,\n  tags TEXT[] DEFAULT '{}',\n  source_exam TEXT,\n  year INTEGER,\n  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()\n);\n\n-- Add index for category searches\nCREATE INDEX idx_questions_category ON questions(category);\n```",
+            "status": "pending",
+            "testStrategy": "Verify table creation with sample data insertion. Test foreign key constraints. Validate RLS policies with different user contexts."
+          },
+          {
+            "id": 3,
+            "title": "Create Data Import Script for Hugging Face Dataset",
+            "description": "Develop a script to import the OAB exam questions from the Hugging Face dataset into the Supabase database.",
+            "dependencies": [],
+            "details": "Create a Node.js or Python script that:\n1. Authenticates with Hugging Face API to access the dataset (russ7/oab_exams_2011_2025_combined)\n2. Fetches the dataset and processes it in batches\n3. Transforms the data to match the Supabase schema structure\n4. Handles data cleaning and normalization (e.g., formatting options as JSONB)\n5. Uses Supabase client library to insert data into the questions table\n6. Includes error handling and logging\n7. Implements retry logic for failed imports\n\nThe script should be configurable to run incrementally and handle dataset updates. Include progress tracking and summary reporting of imported records.",
+            "status": "pending",
+            "testStrategy": "Test with a small subset of data first. Verify data integrity after import. Check for duplicates and malformed entries."
+          },
+          {
+            "id": 4,
+            "title": "Implement Data Validation and Quality Checks",
+            "description": "Create validation procedures to ensure data quality and integrity in the imported dataset.",
+            "dependencies": [],
+            "details": "Develop validation procedures that:\n1. Check for missing required fields (content, options, correct_answer)\n2. Validate that options JSONB structure is consistent and correct\n3. Verify correct_answer references a valid option\n4. Check for duplicate questions based on content similarity\n5. Validate category and difficulty values against allowed enums\n6. Create a data quality dashboard or report showing validation results\n7. Implement automated cleanup procedures for common data issues\n\nCreate SQL functions or server-side procedures to run these validations periodically or after imports. Document any data quality issues found and their resolution.",
+            "status": "pending",
+            "testStrategy": "Run validation on sample problematic data. Verify that validation catches known issues. Test automated cleanup procedures."
+          },
+          {
+            "id": 5,
+            "title": "Create Database Access Layer and API Endpoints",
+            "description": "Implement server-side functions and API endpoints to securely access and manipulate the database.",
+            "dependencies": [
+              4
+            ],
+            "details": "Develop a database access layer that:\n1. Creates Supabase stored procedures for complex queries\n2. Implements server-side functions for data access patterns\n3. Sets up API endpoints for:\n   - User registration and profile management\n   - Question retrieval with filtering and pagination\n   - Simulation creation and results tracking\n   - User performance statistics\n   - Flashcard management\n4. Ensures all endpoints use proper authentication and authorization\n5. Implements efficient query patterns using indexes\n6. Includes rate limiting and security measures\n\nDocument all API endpoints with example requests and responses. Include performance considerations for scaling.",
+            "status": "pending",
+            "testStrategy": "Create automated tests for each API endpoint. Test with various authentication scenarios. Benchmark query performance with realistic data volumes."
+          }
+        ]
       },
       {
         "id": 3,
@@ -261,7 +309,7 @@
     ],
     "metadata": {
       "created": "2025-07-09T23:46:03.268Z",
-      "updated": "2025-07-10T04:03:59.584Z",
+      "updated": "2025-07-10T04:15:25.596Z",
       "description": "Tasks for master context"
     }
   }
