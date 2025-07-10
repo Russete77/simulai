@@ -132,13 +132,7 @@ export interface CreateSimulationRequest {
   difficulty?: string;
 }
 
-export interface SubmitSimulationRequest {
-  simulation_id: string;
-  answers: {
-    question_id: string;
-    selected_option: number;
-  }[];
-}
+
 
 export interface StartSimulationRequest {
   simulation_id: string;
@@ -220,6 +214,59 @@ export interface RequestQueueItem {
   resolve: (value: unknown) => void;
   reject: (error: Error | HttpError) => void;
   config: ExtendedAxiosRequestConfig;
+}
+
+// Tipos para Simulados
+export interface SimuladoDisponivel {
+  id: number;
+  titulo: string;
+  tipo: 'Prova Real' | 'Customizado' | 'Discursiva';
+  questoes: number;
+  tempo: number; // em minutos
+  disciplinas: string[];
+  participantes: number;
+  dificuldade: 'Oficial' | 'Fácil' | 'Média' | 'Difícil';
+  status: 'Disponível' | 'Indisponível';
+  descricao: string;
+}
+
+export interface SimuladoRealizado {
+  id: number;
+  titulo: string;
+  dataRealizacao: string; // ISO date
+  nota: number;
+  acertos: number;
+  total: number;
+  tempo: number; // tempo gasto em minutos
+  posicao: number;
+  totalParticipantes: number;
+}
+
+export interface StartSimulationRequest {
+  simulationId: number;
+}
+
+export interface StartSimulationResponse {
+  sessionId: string;
+  questions: Question[];
+  timeLimit: number;
+}
+
+export interface SubmitSimulationRequest {
+  sessionId: string;
+  answers: Array<{
+    questionId: number;
+    selectedOption: string;
+  }>;
+}
+
+export interface SubmitSimulationResponse {
+  score: number;
+  correctAnswers: number;
+  totalQuestions: number;
+  timeSpent: number;
+  ranking: number;
+  totalParticipants: number;
 }
 
 // Tipos para configuração da API

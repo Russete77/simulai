@@ -1,72 +1,35 @@
-import React, { useState } from 'react';
-import { Clock, Users, Trophy, Play, Settings, BarChart3, CheckCircle, Calendar, Target, Award, TrendingUp, Star, Filter } from 'lucide-react';
+import { useState } from 'react';
+import { Clock, Users, Trophy, Play, Settings, BarChart3, CheckCircle, Calendar, Target, Award, TrendingUp, BookOpen } from 'lucide-react';
+import { useMockSimuladosData, useStartSimulation } from '../hooks/useSimuladosQuery';
+import { LoadingSpinner, LoadingCard } from '../components/ui/LoadingSpinner';
+import { ErrorMessage, EmptyState } from '../components/ui/ErrorMessage';
+import { useToast } from '../components/ui/Toast';
+import { SimuladoDisponivel } from '../types/api';
 
 const Simulados = () => {
   const [activeTab, setActiveTab] = useState('disponivel');
-
-  const simuladosDisponiveis = [
-    {
-      id: 1,
-      titulo: 'Simulado OAB XXXVII - 1ª Fase',
-      tipo: 'Prova Real',
-      questoes: 80,
-      tempo: 300,
-      disciplinas: ['Todas as disciplinas'],
-      participantes: 2847,
-      dificuldade: 'Oficial',
-      status: 'Disponível',
-      descricao: 'Simulado completo nos moldes da prova oficial da OAB'
-    },
-    {
-      id: 2,
-      titulo: 'Simulado Direito Constitucional',
-      tipo: 'Customizado',
-      questoes: 20,
-      tempo: 60,
-      disciplinas: ['Direito Constitucional'],
-      participantes: 1523,
-      dificuldade: 'Média',
-      status: 'Disponível',
-      descricao: 'Foco em princípios constitucionais e direitos fundamentais'
-    },
-    {
-      id: 3,
-      titulo: 'Simulado 2ª Fase - Penal',
-      tipo: 'Discursiva',
-      questoes: 4,
-      tempo: 300,
-      disciplinas: ['Direito Penal', 'Processo Penal'],
-      participantes: 892,
-      dificuldade: 'Difícil',
-      status: 'Disponível',
-      descricao: 'Peças processuais e questões discursivas de direito penal'
+  const toast = useToast();
+  
+  // Usar dados mockados temporariamente até backend estar pronto
+  const { availableSimulados, completedSimulados } = useMockSimuladosData();
+  
+  // Hook para iniciar simulado
+  const startSimulationMutation = useStartSimulation();
+  
+  // Handlers
+  const handleStartSimulation = async (simulado: SimuladoDisponivel) => {
+    try {
+      await startSimulationMutation.mutateAsync({ simulationId: simulado.id });
+      toast.success('Simulado iniciado!', `Você tem ${simulado.tempo} minutos para completar.`);
+      // Aqui você redirecionaria para a página do simulado
+      // navigate(`/simulado/${simulado.id}`);
+    } catch {
+      toast.error('Erro ao iniciar simulado', 'Tente novamente em alguns instantes.');
     }
-  ];
-
-  const simuladosRealizados = [
-    {
-      id: 1,
-      titulo: 'Simulado OAB XXXVI - 1ª Fase',
-      dataRealizacao: '2024-01-15',
-      nota: 68,
-      acertos: 54,
-      total: 80,
-      tempo: 245,
-      posicao: 127,
-      totalParticipantes: 2156
-    },
-    {
-      id: 2,
-      titulo: 'Simulado Direito Civil',
-      dataRealizacao: '2024-01-10',
-      nota: 85,
-      acertos: 17,
-      total: 20,
-      tempo: 45,
-      posicao: 23,
-      totalParticipantes: 1834
-    }
-  ];
+  };
+  
+  const simuladosDisponiveis = availableSimulados.data || [];
+  const simuladosRealizados = completedSimulados.data || [];
 
   const getDifficultyColor = (dificuldade: string) => {
     switch (dificuldade) {
@@ -222,7 +185,26 @@ const Simulados = () => {
           <div className="p-6">
             {activeTab === 'disponivel' && (
               <div className="space-y-6">
-                {simuladosDisponiveis.map((simulado) => (
+                {availableSimulados.isLoading ? (
+                  <div className="space-y-4">
+                    {[...Array(3)].map((_, i) => (
+                      <LoadingCard key={i} />
+                    ))}
+                  </div>
+                ) : availableSimulados.error ? (
+                  <ErrorMessage 
+                    title="Erro ao carregar simulados"
+                    message="Não foi possível carregar os simulados disponíveis."
+                    onRetry={availableSimulados.refetch}
+                  />
+                ) : simuladosDisponiveis.length === 0 ? (
+                  <EmptyState 
+                    title="Nenhum simulado disponível"
+                    description="Não há simulados disponíveis no momento."
+                    icon={<BookOpen className="w-12 h-12 text-gray-400" />}
+                  />
+                ) : (
+                  simuladosDisponiveis.map((simulado) => (
                   <div key={simulado.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 hover:border-blue-200">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex-1">
@@ -275,19 +257,47 @@ const Simulados = () => {
                           Estatísticas
                         </button>
                       </div>
-                      <button className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center shadow-lg hover:shadow-xl">
-                        <Play className="w-4 h-4 mr-2" />
-                        Iniciar Simulado
+                      <button 
+                        onClick={() => handleStartSimulation(simulado)}
+                        disabled={startSimulationMutation.isPending}
+                        className="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-200 flex items-center shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {startSimulationMutation.isPending ? (
+                          <LoadingSpinner size="sm" className="mr-2" />
+                        ) : (
+                          <Play className="w-4 h-4 mr-2" />
+                        )}
+                        {startSimulationMutation.isPending ? 'Iniciando...' : 'Iniciar Simulado'}
                       </button>
                     </div>
                   </div>
-                ))}
+                  ))
+                )}
               </div>
             )}
 
             {activeTab === 'realizados' && (
               <div className="space-y-6">
-                {simuladosRealizados.map((simulado) => (
+                {completedSimulados.isLoading ? (
+                  <div className="space-y-4">
+                    {[...Array(2)].map((_, i) => (
+                      <LoadingCard key={i} />
+                    ))}
+                  </div>
+                ) : completedSimulados.error ? (
+                  <ErrorMessage 
+                    title="Erro ao carregar histórico"
+                    message="Não foi possível carregar seus simulados realizados."
+                    onRetry={completedSimulados.refetch}
+                  />
+                ) : simuladosRealizados.length === 0 ? (
+                  <EmptyState 
+                    title="Nenhum simulado realizado"
+                    description="Você ainda não realizou nenhum simulado. Que tal começar agora?"
+                    icon={<Trophy className="w-12 h-12 text-gray-400" />}
+                  />
+                ) : (
+                  simuladosRealizados.map((simulado) => (
                   <div key={simulado.id} className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300">
                     <div className="flex items-start justify-between mb-6">
                       <div className="flex-1">
@@ -354,7 +364,8 @@ const Simulados = () => {
                       </button>
                     </div>
                   </div>
-                ))}
+                  ))
+                )}
               </div>
             )}
 
